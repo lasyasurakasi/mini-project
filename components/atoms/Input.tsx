@@ -15,8 +15,8 @@ export default function Input({
   register: UseFormRegisterReturn
   label?: string
   placeholder?: string
-  errorCode?: string
-  type?: any
+  errorCode?: any
+  type?: string
 }) {
   let Component: any = 'input'
   if (type === 'textarea') Component = 'textarea'
