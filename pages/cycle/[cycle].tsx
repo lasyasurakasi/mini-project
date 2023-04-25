@@ -3,7 +3,10 @@ import { GetServerSideProps } from 'next'
 import { getCycle } from '../../firebase/firestore'
 import Cycle from '../../interfaces/Cycle'
 
-export default function CyclePage({ cycle }: { cycle: Cycle }) {
+export default function CyclePage({ cycle }: { cycle: Cycle | null }) {
+  if (!cycle) {
+    return null
+  }
   return (
     <div className={'rounded-xl bg-white p-5 shadow'}>
       {cycle.title}

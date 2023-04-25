@@ -167,7 +167,8 @@ export async function createCycle(cycle: CycleInterface) {
 }
 //getOne
 
-export async function getCycle(id: string): Promise<CycleInterface> {
+export async function getCycle(id?: string): Promise<CycleInterface | null> {
+  if (!id) return null
   const order = new Document('cycle', id)
   return (await order.get()) as CycleInterface
 }
