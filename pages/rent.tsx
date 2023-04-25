@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { getAuth } from 'firebase/auth'
 import { FieldValues, useForm } from 'react-hook-form'
@@ -15,9 +16,14 @@ export default function Rent() {
     formState: { errors },
   } = useForm()
   const router = useRouter()
+  useEffect(() => {
+    if (!auth.currentUser) {
+      router.push('/')
+      return
+    }
+  }, [])
   if (!auth.currentUser) {
-    router.push('/')
-    return
+    return null
   }
   function onSubmit(data: FieldValues) {
     if (auth.currentUser?.email)
