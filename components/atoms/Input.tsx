@@ -16,7 +16,7 @@ export default function Input({
   label?: string
   placeholder?: string
   errorCode?: string
-  type?: string
+  type?: any
 }) {
   let Component: any = 'input'
   if (type === 'textarea') Component = 'textarea'
