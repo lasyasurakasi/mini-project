@@ -41,7 +41,11 @@ export async function signInGoogle(): Promise<true | { code: string }> {
     }
     const data = await getUser(email || '')
     if (!data) {
-      await createUser(email || '', response.user.displayName || '')
+      await createUser(
+        email || '',
+        response.user.displayName || '',
+        response.user.photoURL || undefined
+      )
     }
     return true
   } catch (error) {

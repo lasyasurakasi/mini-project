@@ -140,11 +140,12 @@ class Collection {
     return []
   }
 }
-export async function createUser(email: string, name: string) {
+export async function createUser(email: string, name: string, image?: string) {
   const user = new Document('users', email)
   const data: UserInterface = {
     name,
     email,
+    image,
   }
   return await user.set(data)
 }
