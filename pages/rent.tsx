@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { getAuth } from 'firebase/auth'
 import { FieldValues, useForm } from 'react-hook-form'
@@ -8,6 +8,7 @@ import Button from '../components/atoms/Button'
 import Input from '../components/atoms/Input'
 import Layout from '../components/organisms/Layout'
 import { createCycle, deleteCycle, updateCycle } from '../firebase/firestore'
+import { uploadFile } from '../firebase/storage'
 import Cycle from '../interfaces/Cycle'
 const auth = getAuth()
 export default function Rent({ cycle }: { cycle?: Cycle }) {
@@ -17,6 +18,11 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
     formState: { errors },
   } = useForm({ defaultValues: { ...cycle, features: cycle?.features?.join(',') } || {} })
   const router = useRouter()
+  const fileRef = useRef(null)
+  const [displayImage, setDisplayImage] = useState(
+    cycle?.image ||
+      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
+  )
   useEffect(() => {
     if (cycle && auth.currentUser?.email !== cycle.host) {
       router.push('/')
@@ -26,11 +32,15 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
       router.push('/')
       return
     }
-  }, [])
+  }, [cycle, router])
   if (cycle && auth.currentUser?.email !== cycle.host) return null
 
   if (!auth.currentUser) {
     return null
+  }
+  const onFileChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const f = e.target?.files?.item(0)
+    if (f) setDisplayImage(URL.createObjectURL(f))
   }
   function removeCycle() {
     if (cycle && auth.currentUser?.email === cycle.host) {
@@ -39,8 +49,10 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
       })
     }
   }
-  function onSubmit(data: FieldValues) {
+  async function onSubmit(data: FieldValues) {
     if (auth.currentUser?.email) {
+      const id = v4()
+      const image = await uploadFile(data.image?.item(0), '/cycle/' + (cycle?.id || id))
       if (cycle && auth.currentUser.email === cycle.host) {
         updateCycle(cycle.id, {
           features: data.features.split(','),
@@ -48,11 +60,11 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
           model: data.model,
           price: data.price,
           title: data.title,
+          image,
         }).then(() => {
           router.push('/cycle/' + cycle.id)
         })
       } else {
-        const id = v4()
         createCycle({
           id,
           features: data.features.split(','),
@@ -61,6 +73,7 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
           price: data.price,
           title: data.title,
           host: auth.currentUser.email,
+          image,
           rating: 0,
           timeAdded: new Date().getTime(),
         }).then(() => {
@@ -73,6 +86,10 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
   return (
     <Layout>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={'cursor-pointer'}>
+          <img src={displayImage} width={50} height={50} />
+        </div>
+        <input {...register('image')} onChange={onFileChange} type={'file'} />
         <Input
           register={register('title', {
             required: true,

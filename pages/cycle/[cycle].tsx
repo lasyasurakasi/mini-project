@@ -74,6 +74,7 @@ export default function CyclePage({ cycle }: { cycle: Cycle | null }) {
   }
   return (
     <Layout className={'rounded-xl bg-white p-5 shadow'}>
+      {cycle.image && <img width={50} height={50} src={cycle.image} />}
       {cycle.title}
       {cycle.host}
       <ul>
