@@ -58,7 +58,7 @@ export default function Carousel({ children }: PropsWithChildren) {
       )}
       className={'max-w-full'}
     >
-      {children}
+      {children as any}
     </ReactResponsiveCarousel>
   )
 }
