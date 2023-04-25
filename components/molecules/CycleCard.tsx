@@ -1,16 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
-import { updateCycle } from '../../firebase/firestore'
+import { getUser, updateCycle } from '../../firebase/firestore'
 import Cycle from '../../interfaces/Cycle'
+import UserInterface from '../../interfaces/User'
 import { useUser } from '../../pages/_app'
 import Button from '../atoms/Button'
 
 export default function CycleCard({ cycle }: { cycle: Cycle }) {
   const [paused, setPaused] = useState(cycle.paused)
   const [loading, setLoading] = useState(false)
+  const [hostInfo, setHostInfo] = useState<UserInterface>()
   const { rawUser } = useUser()
   const isOwner = rawUser?.email === cycle.host
+  useEffect(() => {
+    getUser(cycle.host).then(setHostInfo)
+  }, [cycle.host])
   function togglePause() {
     setLoading(true)
     updateCycle(cycle.id, { paused: !paused })
@@ -21,7 +26,7 @@ export default function CycleCard({ cycle }: { cycle: Cycle }) {
   return (
     <div className={'rounded-xl bg-white p-5 shadow'}>
       {cycle.title}
-      {cycle.host}
+      {hostInfo?.name}
 
       <ul>
         {cycle.features.map((feature) => (
