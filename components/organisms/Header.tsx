@@ -9,22 +9,24 @@ import { logOut, signInGoogle } from '../../firebase/auth'
 import Button from '../atoms/Button'
 import Container from '../atoms/Container'
 import Wrapper from '../atoms/Wrapper'
-const ROUTES = [
-  {
-    title: 'Home',
-    slug: '/',
-  },
-  {
-    title: 'Rent Cycle',
-    slug: '/rent',
-  },
-]
+
 const auth = getAuth()
 export default function Header() {
   const router = useRouter()
   const currentPath = router.pathname
   const [user, setUser] = useState<User>()
   const [loading, setLoading] = useState(false)
+  const ROUTES = [
+    {
+      title: 'Home',
+      slug: '/',
+    },
+  ]
+  if (user)
+    ROUTES.push({
+      title: 'Rent Cycle',
+      slug: '/rent',
+    })
   useEffect(() => {
     onAuthStateChanged(auth, (_user) => {
       if (!_user) setUser(undefined)

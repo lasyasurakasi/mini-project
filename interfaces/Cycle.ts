@@ -7,4 +7,6 @@ export default interface Cycle {
   model: string
   image?: string
   gear: boolean
+  rating: number
+  timeAdded: number
 }

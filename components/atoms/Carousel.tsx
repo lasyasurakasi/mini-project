@@ -4,7 +4,7 @@ import { Carousel as ReactResponsiveCarousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 type PROPS_STYLE = {}
 
-export default function Carousel({ children }: any) {
+export default function Carousel({ children }: PropsWithChildren) {
   return (
     <ReactResponsiveCarousel
       infiniteLoop={true}
