@@ -1,3 +1,5 @@
+import { GetServerSideProps } from 'next'
+
 import { getCycle } from '../../firebase/firestore'
 import Cycle from '../../interfaces/Cycle'
 
@@ -14,8 +16,8 @@ export default function CyclePage({ cycle }: { cycle: Cycle }) {
     </div>
   )
 }
-export async function getServerSideProps({ params }) {
-  const cycle = await getCycle(params.cycle)
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const cycle = await getCycle(params?.cycle?.toString())
   return {
     props: { cycle },
   }

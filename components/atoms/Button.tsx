@@ -10,7 +10,7 @@ const BUTTON_CLASSES = {
 }
 
 type PROPS_TYPE = {
-  variant: keyof typeof BUTTON_CLASSES
+  variant?: keyof typeof BUTTON_CLASSES
   className?: string
   width?: number
   height?: number
@@ -30,7 +30,7 @@ export default function Button(props: React.PropsWithChildren<PROPS_TYPE>) {
       style={{ height: props.height, width: props.width }}
       id={props.id}
       onClick={props.onClick}
-      className={`${props.className} ${baseClass} ${BUTTON_CLASSES[props.variant]}`}
+      className={`${props.className} ${baseClass} ${BUTTON_CLASSES[props.variant || 'primary']}`}
     >
       {props.children}
     </button>

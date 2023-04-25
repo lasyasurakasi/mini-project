@@ -37,7 +37,7 @@ export async function signInGoogle(): Promise<true | { code: string }> {
     if (!email?.endsWith('@iiitl.ac.in')) {
       signOut(auth)
       alert('Please use college email!')
-      return
+      return { code: 'error' }
     }
     const data = await getUser(email || '')
     if (!data) {
