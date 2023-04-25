@@ -7,40 +7,68 @@ import { v4 } from 'uuid'
 import Button from '../components/atoms/Button'
 import Input from '../components/atoms/Input'
 import Layout from '../components/organisms/Layout'
-import { createCycle } from '../firebase/firestore'
+import { createCycle, deleteCycle, updateCycle } from '../firebase/firestore'
+import Cycle from '../interfaces/Cycle'
 const auth = getAuth()
-export default function Rent() {
+export default function Rent({ cycle }: { cycle?: Cycle }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm({ defaultValues: { ...cycle, features: cycle?.features?.join(',') } || {} })
   const router = useRouter()
   useEffect(() => {
+    if (cycle && auth.currentUser?.email !== cycle.host) {
+      router.push('/')
+    }
+
     if (!auth.currentUser) {
       router.push('/')
       return
     }
   }, [])
+  if (cycle && auth.currentUser?.email !== cycle.host) return null
+
   if (!auth.currentUser) {
     return null
   }
-  function onSubmit(data: FieldValues) {
-    if (auth.currentUser?.email)
-      createCycle({
-        id: v4(),
-        features: data.features.split(','),
-        gear: data.gear,
-        model: data.model,
-        price: data.price,
-        title: data.title,
-        host: auth.currentUser.email,
-        rating: 0,
-        timeAdded: new Date().getTime(),
-      }).then(() => {
-        alert('Added')
+  function removeCycle() {
+    if (cycle && auth.currentUser?.email === cycle.host) {
+      deleteCycle(cycle.id).then(() => {
         router.push('/')
       })
+    }
+  }
+  function onSubmit(data: FieldValues) {
+    if (auth.currentUser?.email) {
+      if (cycle && auth.currentUser.email === cycle.host) {
+        updateCycle(cycle.id, {
+          features: data.features.split(','),
+          gear: data.gear,
+          model: data.model,
+          price: data.price,
+          title: data.title,
+        }).then(() => {
+          router.push('/cycle/' + cycle.id)
+        })
+      } else {
+        const id = v4()
+        createCycle({
+          id,
+          features: data.features.split(','),
+          gear: data.gear,
+          model: data.model,
+          price: data.price,
+          title: data.title,
+          host: auth.currentUser.email,
+          rating: 0,
+          timeAdded: new Date().getTime(),
+        }).then(() => {
+          alert('Added')
+          router.push('/cycle/' + id)
+        })
+      }
+    }
   }
   return (
     <Layout>
@@ -88,9 +116,14 @@ export default function Rent() {
           errorCode={errors['gear']?.type}
         />
         <Button variant={'primary'} id={''} type={'submit'}>
-          Add Cycle
+          {cycle ? 'Update' : 'Add'} Cycle
         </Button>
       </form>
+      {cycle && (
+        <Button onClick={removeCycle} variant={'primary'} id={''} type={'submit'}>
+          Delete cycle
+        </Button>
+      )}
     </Layout>
   )
 }

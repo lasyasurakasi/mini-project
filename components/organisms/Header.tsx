@@ -63,13 +63,14 @@ export default function Header() {
           width={150}
           height={50}
           id={'google'}
+          variant={'outline'}
           className={
             'flex gap-3 rounded-lg border bg-white p-4 shadow-md transition-transform duration-200 ease-in-out hover:scale-105'
           }
           onClick={() => {
             setLoading(true)
             if (!user) signInGoogle().finally(() => setLoading(false))
-            else logOut().finally(() => setLoading(false))
+            else router.push('/account')
           }}
         >
           {loading && (
@@ -82,7 +83,7 @@ export default function Header() {
               </span>
             </div>
           )}
-          {!loading && user && <span>Sign out</span>}
+          {!loading && user && <span>Account</span>}
           {!loading && !user && 'Start Now'}
           {!loading && !user && (
             <img width={20} src="https://img.icons8.com/color/48/null/google-logo.png" />

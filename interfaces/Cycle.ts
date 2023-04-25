@@ -3,6 +3,7 @@ export default interface Cycle {
   id: string
   host: string
   price: number
+  paused?: boolean
   features: string[]
   model: string
   image?: string

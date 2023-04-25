@@ -61,7 +61,7 @@ class Document {
     return this.doc
   }
 
-  async delete(newData: any) {
+  async delete() {
     try {
       await deleteDoc(this.ref)
       this.doc = null
@@ -151,19 +151,19 @@ export async function createUser(email: string, name: string) {
 //getOne
 
 export async function getUser(id: string): Promise<UserInterface> {
-  const order = new Document('user', id)
+  const order = new Document('users', id)
+  console.log(order)
   return (await order.get()) as UserInterface
 }
 //getAll
 
-export async function getUsers(): Promise<UserInterface[]> {
-  const orders = new Collection('user')
-  return (await orders.getAll()) as UserInterface[]
-}
-
 export async function createCycle(cycle: CycleInterface) {
   const user = new Document('cycle', cycle.id)
   return await user.set(cycle)
+}
+export async function deleteCycle(cycleId: string) {
+  const user = new Document('cycle', cycleId)
+  return await user.delete()
 }
 //getOne
 
@@ -178,6 +178,10 @@ export async function getCycles(): Promise<CycleInterface[]> {
   const orders = new Collection('cycle')
   return (await orders.getAll()) as CycleInterface[]
 }
+export async function getUserCycles(email: string): Promise<CycleInterface[]> {
+  const orders = new Collection('cycle')
+  return (await orders.getQuery('host', '==', email)) as CycleInterface[]
+}
 export async function createBooking(booking: Booking) {
   const _booking = new Document('booking', booking.id)
   return await _booking.set(booking)
@@ -188,10 +192,9 @@ export async function getClientBookings(email: string): Promise<Booking[]> {
 }
 export async function getHostBookings(email: string): Promise<Booking[]> {
   const orders = new Collection('booking')
-  return (await orders.getQuery('client', '==', email)) as Booking[]
+  return (await orders.getQuery('host', '==', email)) as Booking[]
 }
-
-export async function getCycleBookings(cycleID: string): Promise<Booking[]> {
-  const orders = new Collection('booking')
-  return (await orders.getQuery('cycle', '==', cycleID)) as Booking[]
+export async function updateCycle(cycleID: string, data: Partial<CycleInterface>) {
+  const cycle = new Document('cycle', cycleID)
+  return await cycle.update(data)
 }
