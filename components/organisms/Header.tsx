@@ -10,6 +10,7 @@ import { logOut, signInGoogle } from '../../firebase/auth'
 import Button from '../atoms/Button'
 import Container from '../atoms/Container'
 import Wrapper from '../atoms/Wrapper'
+import Footer from '../organisms/Footer'
 
 const auth = getAuth()
 export default function Header() {
@@ -23,11 +24,18 @@ export default function Header() {
       slug: '/',
     },
   ]
+
   if (user)
     ROUTES.push({
       title: 'Rent Cycle',
+      slug: '/cycles',
+    })
+  if (user)
+    ROUTES.push({
+      title: 'Lease Cycle',
       slug: '/rent',
     })
+
   useEffect(() => {
     onAuthStateChanged(auth, (_user) => {
       if (!_user) setUser(undefined)
@@ -42,7 +50,7 @@ export default function Header() {
         {!loading && user && (
           <div
             className={
-              'absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-xl font-medium'
+              'absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-400 via-teal-500 to-yellow-500 bg-clip-text text-xl font-bold text-transparent '
             }
           >
             Welcome {user?.displayName}!
@@ -52,7 +60,12 @@ export default function Header() {
           <div className={'h-12 w-12'}>
             <Image width={300} height={300} src={'/logo.png'} alt={'cycle management system'} />
           </div>
-          <div className={'font-bold'}>Cycle Management System</div>
+          <div
+            className={'text-1.5xl text-center font-bold hover:text-purple-900'}
+            style={{ color: '#F5C300' }}
+          >
+            Cycle Management System
+          </div>
         </Link>
         <div className={'flex flex-grow justify-end gap-5'}>
           {ROUTES.map((route) => (
