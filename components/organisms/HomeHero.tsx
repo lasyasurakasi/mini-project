@@ -33,7 +33,7 @@ export default function HomeHero({ displayWaitListForm }: any) {
               width={220}
               variant={'primary'}
             >
-              <span className={'!text-white'}>Rent your cycle</span>
+              <span className={'!text-white'}>Rent a cycle</span>
 
               <svg
                 className={'ml-2.5'}
