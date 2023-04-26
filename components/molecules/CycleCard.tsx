@@ -60,7 +60,7 @@ const CycleCard = ({ cycle }: { cycle: Cycle }) => {
                     'align-bottom text-xs ' + (hovering ? 'text-white' : 'text-[#8A8A8A] ')
                   }
                 >
-                  /hr
+                  /slot
                 </span>
               </div>
             </div>

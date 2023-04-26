@@ -109,8 +109,8 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
             min: 1,
             max: 1000,
           })}
-          label={'Price per hour'}
-          placeholder={'Enter the price per hour'}
+          label={'Price per slot'}
+          placeholder={'Enter the price per slot'}
           errorCode={errors['price']?.type}
         />
         <Input

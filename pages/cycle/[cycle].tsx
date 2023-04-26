@@ -125,12 +125,12 @@ export default function CyclePage({
               alt={''}
             />
           </div>
-          <div className=" flex flex-wrap justify-between gap-10 px-4 pt-[50px] pb-[100px] sm:px-10 md:flex-nowrap ">
+          <div className=" flex flex-wrap-reverse justify-between gap-10 px-4 pt-[50px] pb-[100px] sm:px-10 md:flex-nowrap ">
             <ProductDesSection similarBoughtCycles={similarBoughtCycles} cycle={cycle} />
             <form
               onSubmit={handleSubmit(onSubmit)}
               name={'product'}
-              className={`sticky top-[120px] h-fit w-full  flex-shrink-0 rounded-sm border-[1px] border-[#d7d7d7] border-b-yellow-400 pt-5 shadow-lg md:w-1/4  `}
+              className={`top-[120px] h-fit w-full flex-shrink-0  rounded-sm border-[1px] border-[#d7d7d7] border-b-yellow-400 pt-5 shadow-lg md:sticky md:w-1/4  `}
             >
               <div className="grid grid-flow-row grid-cols-1">
                 <span className="mx-3 px-2 pt-3 pb-1 text-sm font-medium">Start Date</span>
@@ -188,15 +188,18 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     users.add(booking.client)
   })
   const alsoBoughtCycles: any = {}
-  for (const user of users) {
-    const userBookings = await getClientBookings(user)
-    userBookings.forEach((booking) => {
-      if (alsoBoughtCycles[booking.cycle as any]) alsoBoughtCycles[booking.cycle as any]++
-      else {
-        alsoBoughtCycles[booking.cycle as any] = 1
-      }
+  const userArray = Array.from(users)
+  await Promise.all(
+    userArray.map(async (user) => {
+      const userBookings = await getClientBookings(user)
+      userBookings.forEach((booking) => {
+        if (alsoBoughtCycles[booking.cycle as any]) alsoBoughtCycles[booking.cycle as any]++
+        else {
+          alsoBoughtCycles[booking.cycle as any] = 1
+        }
+      })
     })
-  }
+  )
   const similarBoughtCycles = await Promise.all(
     Object.keys(alsoBoughtCycles)
       .sort((a, b) => alsoBoughtCycles[b as any] - alsoBoughtCycles[a as any])
