@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useEffect, useRef, useState } from 'react'
+import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { getAuth } from 'firebase/auth'
 import { FieldValues, useForm } from 'react-hook-form'
@@ -6,6 +6,7 @@ import { v4 } from 'uuid'
 
 import Button from '../components/atoms/Button'
 import Input from '../components/atoms/Input'
+import SEO from '../components/atoms/Seo'
 import Layout from '../components/organisms/Layout'
 import { createCycle, deleteCycle, updateCycle } from '../firebase/firestore'
 import { uploadFile } from '../firebase/storage'
@@ -85,6 +86,8 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
   }
   return (
     <Layout>
+      <SEO title={cycle ? `Edit ${cycle.title} ${cycle.host}` : 'Rent a cycle'} />
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={'cursor-pointer'}>
           <img src={displayImage} width={50} height={50} />
