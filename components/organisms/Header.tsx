@@ -48,7 +48,7 @@ export default function Header() {
             Welcome {user?.displayName}!
           </div>
         )}
-        <Link href={'/'} className={'flex items-center gap-5'}>
+        <Link href={'/'} className={'flex items-center gap-3'}>
           <div className={'h-12 w-12'}>
             <Image width={300} height={300} src={'/logo.png'} alt={'cycle management system'} />
           </div>
