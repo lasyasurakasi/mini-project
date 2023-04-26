@@ -111,18 +111,19 @@ export default function CyclePage({
   return (
     <Layout className={'rounded-xl bg-white shadow'}>
       <SEO image={cycle.image} title={cycle.title + ' ' + cycle.model} />
-      <div className={' w-full'}>
-        <Image
-          width={1000}
-          height={1000}
-          className={'h-full w-full object-center'}
-          src={cycle.image || ''}
-          alt={''}
-        />
-      </div>
+
       <Wrapper>
-        <Container className={'pt-[50px] pb-[100px]'}>
-          <div className="flex flex-wrap justify-between gap-5 px-4 sm:px-10 md:flex-nowrap ">
+        <Container className={''}>
+          <div className={' mx-auto w-full md:w-1/3'}>
+            <Image
+              width={1000}
+              height={1000}
+              className={'h-full w-full object-center'}
+              src={cycle.image || ''}
+              alt={''}
+            />
+          </div>
+          <div className=" flex flex-wrap justify-between gap-5 px-4 pt-[50px] pb-[100px] sm:px-10 md:flex-nowrap ">
             <ProductDesSection cycle={cycle} />
             <form
               onSubmit={handleSubmit(onSubmit)}

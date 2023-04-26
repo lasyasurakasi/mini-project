@@ -48,8 +48,11 @@ export default function Header() {
             Welcome {user?.displayName}!
           </div>
         )}
-        <div className={'h-8 w-8 bg-black'}>
-          <Image width={50} height={50} src={'/logo.png'} alt={'cycle management system'} />
+        <div className={'flex items-center gap-5'}>
+          <div className={'h-12 w-12'}>
+            <Image width={300} height={300} src={'/logo.png'} alt={'cycle management system'} />
+          </div>
+          <div className={'font-bold'}>Cycle Management System</div>
         </div>
         <div className={'flex flex-grow justify-end gap-5'}>
           {ROUTES.map((route) => (
