@@ -8,7 +8,7 @@ const siteMetadata = {
   image: 'https://mini-project-umber-six.vercel.app/logo.png',
 }
 export default function SEO({ title, image }: { title?: string; image?: string }) {
-  const TITLE = title + (title ? ' | ' : '') + siteMetadata.title
+  const TITLE = (title || '') + (title ? ' | ' : '') + siteMetadata.title
   return (
     <Head>
       <title>{TITLE}</title>
