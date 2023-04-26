@@ -2,7 +2,7 @@ import React from 'react'
 
 const BUTTON_CLASSES = {
   outline:
-    'transition-colors duration-200 bg-transparent hover:bg-p1 !text-p1 child-text-white border border-p1 hover:border-transparent rounded-xl',
+    'transition-colors duration-200 bg-transparent hover:bg-p1 text-p1 hover:text-white child-text-white border border-p1 hover:border-transparent rounded-xl',
   primary:
     'bg-p1 transition-transform duration-100 ease-in-out hover:bg-p1 hover:scale-110 !text-white rounded-lg',
   secondary: 'bg-[#00B88B] hover:bg-[#00a67d] !text-white rounded-lg',
@@ -22,7 +22,7 @@ type PROPS_TYPE = {
 
 export default function Button(props: React.PropsWithChildren<PROPS_TYPE>) {
   const baseClass =
-    'transition-colors duration-200 flex justify-center items-center w-full h-full disabled:bg-[#9d6cd2]'
+    'group transition-colors duration-200 flex justify-center items-center w-full h-full disabled:bg-[#9d6cd2]'
   return (
     <button
       disabled={props.disabled}

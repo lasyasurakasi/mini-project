@@ -72,7 +72,7 @@ export default function Header() {
             id={'google'}
             variant={'outline'}
             className={
-              'flex gap-3 rounded-lg border bg-white p-4 shadow-md transition-transform duration-200 ease-in-out hover:scale-105'
+              'flex gap-3 rounded-lg border bg-white p-4 shadow-md transition-transform duration-200 ease-in-out hover:scale-105 hover:text-white'
             }
             onClick={() => {
               setLoading(true)
