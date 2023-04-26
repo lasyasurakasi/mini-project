@@ -17,7 +17,7 @@ import Booking from '../../interfaces/Booking'
 import Cycle from '../../interfaces/Cycle'
 import { useUser } from '../../pages/_app'
 import getStripe from '../../stripe'
-const SLOTS = [
+export const SLOTS = [
   { code: '1', from: 6, to: 8, timeString: '6am - 8am', title: 'Slot 1' },
   { code: '2', from: 8, to: 10, timeString: '8am - 10am', title: 'Slot 2' },
   { code: '3', from: 10, to: 12, timeString: '10am - 12pm', title: 'Slot 3' },
@@ -166,7 +166,7 @@ export default function CyclePage({
                 {!loading && (
                   <div className="flex justify-between px-11  font-semibold">
                     <h4>Book this car </h4> &nbsp;
-                    <span className={'text-xl'}>Rs. {cycle.price || 0}</span>
+                    <span className={'text-xl'}>₹ {cycle.price || 0}</span>
                   </div>
                 )}
                 {loading && <div className={'text-center'}>Loading...</div>}

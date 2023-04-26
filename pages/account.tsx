@@ -36,8 +36,8 @@ export default function Account() {
     <Layout>
       <SEO title={rawUser?.displayName || 'Account'} />
       <Wrapper>
-        <Container className={'my-10 flex flex-wrap gap-10 md:flex-nowrap'}>
-          <div className={'min-w-[250px]'}>
+        <Container className={'my-10 flex flex-wrap gap-10 px-5 md:flex-nowrap'}>
+          <div className={'mx-auto w-full flex-shrink-0 md:mx-0 md:w-[250px]'}>
             <div className={'w-full  rounded-lg px-10 py-8 shadow-lg'}>
               <div className={'mb-5 w-full overflow-hidden rounded-full border border-p1'}>
                 <Image
@@ -50,13 +50,13 @@ export default function Account() {
               <div className={'text-center text-xl font-semibold'}>{rawUser?.displayName}</div>
               <div className={'mb-4 text-center text-sm italic'}>{rawUser?.email}</div>
 
-              <div className={'grid grid-cols-2 gap-2'}>
-                <b>Earned:</b> <span>Rs.{moneyEarned}</span>
-                <b>Spent:</b> <span>Rs.{moneySpent}</span>
+              <div className={'mt-10 grid grid-cols-2 gap-2 text-lg'}>
+                <b>Earned:</b> <span>₹{moneyEarned}</span>
+                <b>Spent:</b> <span>₹{moneySpent}</span>
               </div>
             </div>
           </div>
-          <div className={'rounded-lg bg-white p-10 shadow-lg'}>
+          <div className={'mx-auto w-full rounded-lg bg-white p-10 shadow-lg md:mx-0 md:w-auto'}>
             <div className={'mb-10'}>
               <div className={'mb-5 text-2xl font-bold'}>My Cycles</div>
               <div className={'flex grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 '}>
@@ -72,6 +72,7 @@ export default function Account() {
                   <BookingCard booking={booking} key={booking.id} />
                 ))}
               </div>
+              {!bookingsForMe.length && <div className={'text-center italic'}>No Bookings</div>}
             </div>
             <div className={'mb-10'}>
               <div className={'mb-5 text-2xl font-bold'}>Cycles I Booked</div>
@@ -81,6 +82,7 @@ export default function Account() {
                 ))}
               </div>
             </div>
+            {!bookingsByMe.length && <div className={'text-center italic'}>No Bookings</div>}
           </div>
         </Container>
       </Wrapper>

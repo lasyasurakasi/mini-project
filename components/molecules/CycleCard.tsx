@@ -54,7 +54,7 @@ const CycleCard = ({ cycle }: { cycle: Cycle }) => {
 
             <div className="flex justify-end ">
               <div>
-                <span className="text-base font-semibold">Rs. {cycle.price}</span>
+                <span className="text-base font-semibold">₹ {cycle.price}</span>
                 <span
                   className={
                     'align-bottom text-xs ' + (hovering ? 'text-white' : 'text-[#8A8A8A] ')
