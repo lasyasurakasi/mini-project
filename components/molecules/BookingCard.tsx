@@ -9,14 +9,14 @@ import UserInterface from '../../interfaces/User'
 import { SLOTS } from '../../pages/cycle/[cycle]'
 
 export default function BookingCard({ booking }: { booking: Booking }) {
-  const [cycle, setCycle] = useState<Cycle>()
-  const [client, setClient] = useState<UserInterface>()
+  const [cycle, setCycle] = useState<Cycle | null>()
+  const [client, setClient] = useState<UserInterface | null>()
   const [hovering, setHovering] = useState(false)
 
   useEffect(() => {
     getCycle(booking.cycle).then(setCycle)
     getUser(booking.client).then(setClient)
-  }, [])
+  }, [booking.client, booking.cycle])
   if (!cycle) return null
   return (
     <div
