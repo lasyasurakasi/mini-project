@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
 
+import Container from '../components/atoms/Container'
 import SEO from '../components/atoms/Seo'
+import Wrapper from '../components/atoms/Wrapper'
 import BookingCard from '../components/molecules/BookingCard'
 import CycleCard from '../components/molecules/CycleCard'
 import Layout from '../components/organisms/Layout'
@@ -32,27 +35,55 @@ export default function Account() {
   return (
     <Layout>
       <SEO title={rawUser?.displayName || 'Account'} />
+      <Wrapper>
+        <Container className={'my-10 flex flex-wrap gap-10 md:flex-nowrap'}>
+          <div className={'min-w-[250px]'}>
+            <div className={'w-full  rounded-lg px-10 py-8 shadow-lg'}>
+              <div className={'mb-5 w-full overflow-hidden rounded-full border border-p1'}>
+                <Image
+                  width={300}
+                  height={300}
+                  src={rawUser?.photoURL || ''}
+                  alt={rawUser?.displayName || ''}
+                />
+              </div>
+              <div className={'text-center text-xl font-semibold'}>{rawUser?.displayName}</div>
+              <div className={'mb-4 text-center text-sm italic'}>{rawUser?.email}</div>
 
-      <div>My Cycles</div>
-      <div className={'flex'}>
-        {cycles.map((cycle) => (
-          <CycleCard cycle={cycle} key={cycle.id} />
-        ))}
-      </div>
-      <div>Money Earned: {moneyEarned}</div>
-      <div>Money Spent: {moneySpent}</div>
-      <div>My Cycles Booked</div>
-      <div className={'flex'}>
-        {bookingsForMe.map((booking) => (
-          <BookingCard booking={booking} key={booking.id} />
-        ))}
-      </div>
-      <div>Cycles I Booked</div>
-      <div className={'flex'}>
-        {bookingsByMe.map((booking) => (
-          <BookingCard booking={booking} key={booking.id} />
-        ))}
-      </div>
+              <div className={'grid grid-cols-2 gap-2'}>
+                <b>Earned:</b> <span>Rs.{moneyEarned}</span>
+                <b>Spent:</b> <span>Rs.{moneySpent}</span>
+              </div>
+            </div>
+          </div>
+          <div className={'rounded-lg bg-white p-10 shadow-lg'}>
+            <div className={'mb-10'}>
+              <div className={'mb-5 text-2xl font-bold'}>My Cycles</div>
+              <div className={'flex grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 '}>
+                {cycles.map((cycle) => (
+                  <CycleCard cycle={cycle} key={cycle.id} />
+                ))}
+              </div>
+            </div>
+            <div className={'mb-10'}>
+              <div className={'mb-5 text-2xl font-bold'}>My Cycles Booked</div>
+              <div className={'flex grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3'}>
+                {bookingsForMe.map((booking) => (
+                  <BookingCard booking={booking} key={booking.id} />
+                ))}
+              </div>
+            </div>
+            <div className={'mb-10'}>
+              <div className={'mb-5 text-2xl font-bold'}>Cycles I Booked</div>
+              <div className={'flex grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 '}>
+                {bookingsByMe.map((booking) => (
+                  <BookingCard booking={booking} key={booking.id} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </Container>
+      </Wrapper>
     </Layout>
   )
 }
