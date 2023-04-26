@@ -90,7 +90,7 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={'cursor-pointer'}>
-          <img src={displayImage} width={50} height={50} />
+          <img alt={'cycle'} src={displayImage} width={50} height={50} />
         </div>
         <input {...register('image')} onChange={onFileChange} type={'file'} />
         <Input

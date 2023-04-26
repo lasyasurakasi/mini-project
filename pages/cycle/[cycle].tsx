@@ -121,7 +121,7 @@ export default function CyclePage({
               width={1000}
               height={1000}
               className={'h-full w-full object-center'}
-              src={cycle.image || ''}
+              src={cycle.image || 'cycle'}
               alt={''}
             />
           </div>

@@ -48,7 +48,7 @@ export default function Account() {
                   width={300}
                   height={300}
                   src={rawUser?.photoURL || ''}
-                  alt={rawUser?.displayName || ''}
+                  alt={rawUser?.displayName || 'user profile photo'}
                 />
               </div>
               <div className={'text-center text-xl font-semibold'}>{rawUser?.displayName}</div>

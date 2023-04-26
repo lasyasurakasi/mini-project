@@ -91,7 +91,11 @@ export default function Header() {
             )}
             {!loading && !user && 'Start Now'}
             {!loading && !user && (
-              <img width={20} src="https://img.icons8.com/color/48/null/google-logo.png" />
+              <img
+                alt={'google'}
+                width={20}
+                src="https://img.icons8.com/color/48/null/google-logo.png"
+              />
             )}
           </Button>
         )}
@@ -100,7 +104,12 @@ export default function Header() {
             href={'/account'}
             className={'h-10 w-10 overflow-hidden rounded-full border border-p1'}
           >
-            <Image alt={''} width={40} height={40} src={user.photoURL || '/profile.png'} />
+            <Image
+              alt={'user photo'}
+              width={40}
+              height={40}
+              src={user.photoURL || '/profile.png'}
+            />
           </Link>
         )}
       </Container>
