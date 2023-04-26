@@ -185,7 +185,11 @@ export async function getUserCycles(email: string): Promise<CycleInterface[]> {
 }
 export async function createBooking(booking: Booking) {
   const _booking = new Document('booking', booking.id)
-  return await _booking.set({ ...booking, date: parseInt(booking.date.toString()) })
+  return await _booking.set({
+    ...booking,
+    date: parseInt(booking.date.toString()),
+    price: parseInt(booking.price.toString()),
+  })
 }
 export async function getClientBookings(email: string): Promise<Booking[]> {
   const orders = new Collection('booking')

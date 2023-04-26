@@ -31,6 +31,7 @@ export default function Account() {
   }, [rawUser])
   const moneyEarned = bookingsForMe.reduce((acc, prev) => acc + (prev.price || 0), 0)
   const moneySpent = bookingsByMe.reduce((acc, prev) => acc + (prev.price || 0), 0)
+
   if (!rawUser) return null
   return (
     <Layout>
