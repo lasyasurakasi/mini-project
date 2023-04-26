@@ -203,10 +203,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const similarBoughtCycles = await Promise.all(
     Object.keys(alsoBoughtCycles)
       .sort((a, b) => alsoBoughtCycles[b as any] - alsoBoughtCycles[a as any])
-      .slice(0, 3)
-      .map(async (id) => getCycle(id))
+      .slice(0, 5)
+      .map(getCycle)
   )
   return {
-    props: { cycle, bookings, similarBoughtCycles },
+    props: { cycle, bookings, similarBoughtCycles: similarBoughtCycles.slice(0, 3) },
   }
 }
