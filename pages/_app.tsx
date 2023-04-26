@@ -24,13 +24,11 @@ export function useUser() {
 function MyApp({ Component, pageProps }: AppProps) {
   const [rawUser, setRawUser] = useState<User | null>()
   const [user, setUser] = useState<UserInterface | null>()
-  console.log(user)
   useEffect(() => {
     onAuthStateChanged(auth, (_user) => {
       if (_user) {
         setRawUser(_user)
         getUser(_user.email || '').then((res) => {
-          console.log(_user.email || '')
           setUser(res)
         })
       } else {

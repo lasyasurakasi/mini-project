@@ -153,7 +153,6 @@ export async function createUser(email: string, name: string, image?: string) {
 
 export async function getUser(id: string): Promise<UserInterface> {
   const order = new Document('users', id)
-  console.log(order)
   return (await order.get()) as UserInterface
 }
 //getAll

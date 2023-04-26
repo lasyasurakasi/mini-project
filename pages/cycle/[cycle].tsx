@@ -48,7 +48,6 @@ export default function CyclePage({
       date,
     },
   })
-  console.log(similarBoughtCycles)
   const selectedDate = watch('date' as any) as Date
   const selectedDateBookings =
     typeof selectedDate === 'string'
@@ -188,19 +187,19 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   bookings.forEach((booking) => {
     users.add(booking.client)
   })
-  const alsoBoughtCycles = {}
+  const alsoBoughtCycles: any = {}
   for (const user of users) {
     const userBookings = await getClientBookings(user)
     userBookings.forEach((booking) => {
-      if (alsoBoughtCycles[booking.cycle]) alsoBoughtCycles[booking.cycle]++
+      if (alsoBoughtCycles[booking.cycle as any]) alsoBoughtCycles[booking.cycle as any]++
       else {
-        alsoBoughtCycles[booking.cycle] = 1
+        alsoBoughtCycles[booking.cycle as any] = 1
       }
     })
   }
   const similarBoughtCycles = await Promise.all(
     Object.keys(alsoBoughtCycles)
-      .sort((a, b) => alsoBoughtCycles[b] - alsoBoughtCycles[a])
+      .sort((a, b) => alsoBoughtCycles[b as any] - alsoBoughtCycles[a as any])
       .slice(0, 3)
       .map(async (id) => getCycle(id))
   )

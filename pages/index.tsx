@@ -10,7 +10,6 @@ import { getCycles } from '../firebase/firestore'
 import Cycle from '../interfaces/Cycle'
 
 const Home: NextPage<{ cycles: Cycle[] }> = ({ cycles }) => {
-  console.log(cycles)
   return (
     <Layout>
       <SEO />
