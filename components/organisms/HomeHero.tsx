@@ -25,7 +25,7 @@ export default function HomeHero({ displayWaitListForm }: any) {
               <span>Rent your cycle now or you will not be able to </span>
             </div>
           </div>
-          <Link href={'/rent'}>
+          <Link href={'/cycles'}>
             <Button
               id={'seller-about'}
               className={'mx-auto mb-8 md:mx-0'}
