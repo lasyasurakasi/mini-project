@@ -36,7 +36,7 @@ export default function CyclePage({
 }) {
   const { rawUser } = useUser()
   var curr = new Date()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   curr.setDate(curr.getDate() + 1)
   const date = curr.toISOString().substring(0, 10)
