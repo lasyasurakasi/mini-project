@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
+import SEO from '../components/atoms/Seo'
 import BookingCard from '../components/molecules/BookingCard'
 import CycleCard from '../components/molecules/CycleCard'
 import Layout from '../components/organisms/Layout'
@@ -30,6 +31,8 @@ export default function Account() {
   if (!rawUser) return null
   return (
     <Layout>
+      <SEO title={rawUser?.displayName || 'Account'} />
+
       <div>My Cycles</div>
       <div className={'flex'}>
         {cycles.map((cycle) => (

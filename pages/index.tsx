@@ -1,5 +1,7 @@
+import React from 'react'
 import type { NextPage } from 'next'
 
+import SEO from '../components/atoms/Seo'
 import HomeHero from '../components/organisms/HomeHero'
 import HomeHowItWorks from '../components/organisms/HomeHowItWorks'
 import Layout from '../components/organisms/Layout'
@@ -11,6 +13,8 @@ const Home: NextPage<{ cycles: Cycle[] }> = ({ cycles }) => {
   console.log(cycles)
   return (
     <Layout>
+      <SEO />
+
       <HomeHero />
       <Listing cycles={cycles} />
       <HomeHowItWorks />
