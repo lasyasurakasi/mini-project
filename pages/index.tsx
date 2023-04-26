@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import type { NextPage } from 'next'
 
 import SEO from '../components/atoms/Seo'
@@ -13,7 +13,6 @@ const Home: NextPage<{ cycles: Cycle[] }> = ({ cycles }) => {
   return (
     <Layout>
       <SEO />
-
       <HomeHero />
       <Listing cycles={cycles} />
       <HomeHowItWorks />
@@ -25,6 +24,7 @@ export default Home
 
 export async function getServerSideProps() {
   const cycles = await getCycles()
+
   return {
     props: {
       cycles: cycles.filter((c) => !c.paused).slice(0, 3),
