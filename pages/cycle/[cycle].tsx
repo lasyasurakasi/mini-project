@@ -110,7 +110,7 @@ export default function CyclePage({
   }
   return (
     <Layout className={'rounded-xl bg-white shadow'}>
-      <SEO title={cycle.title + ' ' + cycle.model} />
+      <SEO image={cycle.image} title={cycle.title + ' ' + cycle.model} />
       <div className={' w-full'}>
         <Image
           width={1000}
