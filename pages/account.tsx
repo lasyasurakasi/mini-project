@@ -99,8 +99,8 @@ export default function Account() {
                   <BookingCard booking={booking} key={booking.id} />
                 ))}
               </div>
+              {!bookingsByMe.length && <div className={'text-center italic'}>No Bookings</div>}
             </div>
-            {!bookingsByMe.length && <div className={'text-center italic'}>No Bookings</div>}
           </div>
         </Container>
       </Wrapper>

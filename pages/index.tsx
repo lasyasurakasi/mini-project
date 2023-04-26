@@ -28,7 +28,7 @@ export async function getServerSideProps() {
   const cycles = await getCycles()
   return {
     props: {
-      cycles: cycles.filter((c) => !c.paused),
+      cycles: cycles.filter((c) => !c.paused).slice(0, 3),
     },
   }
 }

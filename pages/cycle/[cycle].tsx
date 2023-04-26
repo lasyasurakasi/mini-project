@@ -12,7 +12,7 @@ import Wrapper from '../../components/atoms/Wrapper'
 import Layout from '../../components/organisms/Layout'
 import ProductDesSection from '../../components/organisms/ProductDesSection'
 import { signInGoogle } from '../../firebase/auth'
-import { getCycle, getCycleBookings } from '../../firebase/firestore'
+import { getClientBookings, getCycle, getCycleBookings } from '../../firebase/firestore'
 import Booking from '../../interfaces/Booking'
 import Cycle from '../../interfaces/Cycle'
 import { useUser } from '../../pages/_app'
@@ -30,9 +30,11 @@ export const SLOTS = [
 export default function CyclePage({
   cycle,
   bookings,
+  similarBoughtCycles,
 }: {
   cycle: Cycle | null
   bookings: Booking[]
+  similarBoughtCycles: Cycle[]
 }) {
   const { rawUser } = useUser()
   var curr = new Date()
@@ -46,6 +48,7 @@ export default function CyclePage({
       date,
     },
   })
+  console.log(similarBoughtCycles)
   const selectedDate = watch('date' as any) as Date
   const selectedDateBookings =
     typeof selectedDate === 'string'
@@ -123,12 +126,12 @@ export default function CyclePage({
               alt={''}
             />
           </div>
-          <div className=" flex flex-wrap justify-between gap-5 px-4 pt-[50px] pb-[100px] sm:px-10 md:flex-nowrap ">
-            <ProductDesSection cycle={cycle} />
+          <div className=" flex flex-wrap justify-between gap-10 px-4 pt-[50px] pb-[100px] sm:px-10 md:flex-nowrap ">
+            <ProductDesSection similarBoughtCycles={similarBoughtCycles} cycle={cycle} />
             <form
               onSubmit={handleSubmit(onSubmit)}
               name={'product'}
-              className={`sticky top-[120px] h-fit w-full  rounded-sm border-[1px] border-[#d7d7d7] border-b-yellow-400 pt-5 shadow-lg md:w-5/12 `}
+              className={`sticky top-[120px] h-fit w-full  flex-shrink-0 rounded-sm border-[1px] border-[#d7d7d7] border-b-yellow-400 pt-5 shadow-lg md:w-1/4  `}
             >
               <div className="grid grid-flow-row grid-cols-1">
                 <span className="mx-3 px-2 pt-3 pb-1 text-sm font-medium">Start Date</span>
@@ -181,7 +184,27 @@ export default function CyclePage({
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const cycle = await getCycle(params?.cycle?.toString())
   const bookings = await getCycleBookings(params?.cycle?.toString() || '')
+  const users = new Set<string>()
+  bookings.forEach((booking) => {
+    users.add(booking.client)
+  })
+  const alsoBoughtCycles = {}
+  for (const user of users) {
+    const userBookings = await getClientBookings(user)
+    userBookings.forEach((booking) => {
+      if (alsoBoughtCycles[booking.cycle]) alsoBoughtCycles[booking.cycle]++
+      else {
+        alsoBoughtCycles[booking.cycle] = 1
+      }
+    })
+  }
+  const similarBoughtCycles = await Promise.all(
+    Object.keys(alsoBoughtCycles)
+      .sort((a, b) => alsoBoughtCycles[b] - alsoBoughtCycles[a])
+      .slice(0, 3)
+      .map(async (id) => getCycle(id))
+  )
   return {
-    props: { cycle, bookings },
+    props: { cycle, bookings, similarBoughtCycles },
   }
 }
