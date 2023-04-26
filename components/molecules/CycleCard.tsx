@@ -1,59 +1,74 @@
-import { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 
-import { getUser, updateCycle } from '../../firebase/firestore'
 import Cycle from '../../interfaces/Cycle'
-import UserInterface from '../../interfaces/User'
-import { useUser } from '../../pages/_app'
-import Button from '../atoms/Button'
 
-export default function CycleCard({ cycle }: { cycle: Cycle }) {
-  const [paused, setPaused] = useState(cycle.paused)
-  const [loading, setLoading] = useState(false)
-  const [hostInfo, setHostInfo] = useState<UserInterface>()
-  const { rawUser } = useUser()
-  const isOwner = rawUser?.email === cycle.host
-  useEffect(() => {
-    getUser(cycle.host).then(setHostInfo)
-  }, [cycle.host])
-  function togglePause() {
-    setLoading(true)
-    updateCycle(cycle.id, { paused: !paused })
-      .then(() => setPaused(!paused))
-      .catch((e) => console.error(e))
-      .finally(() => setLoading(false))
-  }
+const CycleCard = ({ cycle }: { cycle: Cycle }) => {
+  const [hovering, setHovering] = useState(false)
+  if (!cycle) return null
   return (
-    <div className={'rounded-xl bg-white p-5 shadow'}>
-      {cycle.title}
-      {hostInfo?.name}
+    <div
+      className={'group overflow-hidden rounded-[10px]  shadow-md shadow-[#F5F5F5] drop-shadow-sm'}
+    >
+      <Link
+        onMouseEnter={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
+        href={'/cycle/' + cycle.id}
+        className="my-4  shadow-xl hover:text-white"
+      >
+        <>
+          <div
+            className={
+              'flex h-[263px] items-center justify-center overflow-hidden bg-[#f9f9f9] text-center '
+            }
+          >
+            <Image
+              className="w-full  object-cover transition-all duration-500  ease-out group-hover:scale-105"
+              src={cycle.image || ''}
+              width={390}
+              height={263}
+              alt="car"
+            />
+          </div>
 
-      <ul>
-        {cycle.features.map((feature) => (
-          <li key={feature}>{feature}</li>
-        ))}
-      </ul>
-      {isOwner && (
-        <Button
-          width={90}
-          height={40}
-          disabled={loading}
-          onClick={togglePause}
-          variant={'primary'}
-          id={'pause'}
-        >
-          {loading && 'Loading'}
-          {!loading && (paused ? 'Paused' : 'Pause')}
-        </Button>
-      )}
-      {isOwner && (
-        <Link href={'/edit/' + cycle.id}>
-          <Button width={90} height={40} variant={'primary'} id={'pause'}>
-            Edit
-          </Button>
-        </Link>
-      )}
-      <Link href={'/cycle/' + cycle.id}>Read More</Link>
+          <div className={'px-7 py-4 hover:text-white ' + (hovering ? 'bg-[#FFC300]' : '')}>
+            <div className="flex flex-col ">
+              <div
+                className={
+                  'text-base font-semibold capitalize ' +
+                  (hovering ? 'text-white' : 'text-[#8A8A8A]')
+                }
+              >
+                {cycle.title}
+              </div>
+              <div className="text-xl font-semibold">{cycle.model}</div>
+            </div>
+            <span className="flex justify-center">
+              <hr
+                className={
+                  'my-3 h-px w-[100%] border-0 ' + (hovering ? 'bg-white' : 'bg-gray-200 ')
+                }
+              />
+            </span>
+
+            <div className="flex justify-end ">
+              <div>
+                <span className="text-base font-semibold">Rs. {cycle.price}</span>
+                <span
+                  className={
+                    'align-bottom text-xs ' + (hovering ? 'text-white' : 'text-[#8A8A8A] ')
+                  }
+                >
+                  /hr
+                </span>
+              </div>
+            </div>
+          </div>
+        </>
+      </Link>
     </div>
   )
 }
+
+export default CycleCard
