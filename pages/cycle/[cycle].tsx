@@ -114,7 +114,7 @@ export default function CyclePage({
 
       <Wrapper>
         <Container className={''}>
-          <div className={' mx-auto w-full md:w-1/3'}>
+          <div className={' mx-auto w-full md:w-1/2'}>
             <Image
               width={1000}
               height={1000}
