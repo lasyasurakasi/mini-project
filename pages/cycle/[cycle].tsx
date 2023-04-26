@@ -1,12 +1,18 @@
+import React, { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
+import Image from 'next/image'
 import { FieldValues, useForm } from 'react-hook-form'
 import { v4 } from 'uuid'
 
 import Button from '../../components/atoms/Button'
+import Container from '../../components/atoms/Container'
 import Input from '../../components/atoms/Input'
+import SEO from '../../components/atoms/Seo'
+import Wrapper from '../../components/atoms/Wrapper'
 import Layout from '../../components/organisms/Layout'
+import ProductDesSection from '../../components/organisms/ProductDesSection'
 import { signInGoogle } from '../../firebase/auth'
-import { getCycle } from '../../firebase/firestore'
+import { getCycle, getCycleBookings } from '../../firebase/firestore'
 import Booking from '../../interfaces/Booking'
 import Cycle from '../../interfaces/Cycle'
 import { useUser } from '../../pages/_app'
@@ -21,9 +27,36 @@ const SLOTS = [
   { code: '7', from: 18, to: 20, timeString: '6pm - 8pm', title: 'Slot 7' },
   { code: '8', from: 20, to: 22, timeString: '8pm - 10pm', title: 'Slot 8' },
 ]
-export default function CyclePage({ cycle }: { cycle: Cycle | null }) {
-  const { register, handleSubmit } = useForm()
+export default function CyclePage({
+  cycle,
+  bookings,
+}: {
+  cycle: Cycle | null
+  bookings: Booking[]
+}) {
   const { rawUser } = useUser()
+  var curr = new Date()
+  const [loading, setLoading] = useState(true)
+
+  curr.setDate(curr.getDate() + 1)
+  const date = curr.toISOString().substring(0, 10)
+
+  const { register, handleSubmit, watch } = useForm({
+    defaultValues: {
+      date,
+    },
+  })
+  const selectedDate = watch('date' as any) as Date
+  const selectedDateBookings =
+    typeof selectedDate === 'string'
+      ? []
+      : bookings.filter(
+          (booking) => new Date(booking.date).toDateString() === selectedDate.toDateString()
+        )
+  // console.log(selectedDate.toDateString(), new Date(bookings[0].date).toDateString())
+  const slots = SLOTS.filter(
+    (slot) => !selectedDateBookings.some((booking) => booking.slot === slot.code)
+  )
   if (!cycle) {
     return null
   }
@@ -34,10 +67,11 @@ export default function CyclePage({ cycle }: { cycle: Cycle | null }) {
       signInGoogle()
       return
     }
+    setLoading(true)
     const booking: Booking = {
       slot: slot.code,
       cycle: cycle.id,
-      date: new Date().getTime(),
+      date: data.date.getTime(),
       client: rawUser?.email || '',
       host: cycle.host,
       id: v4(),
@@ -48,7 +82,9 @@ export default function CyclePage({ cycle }: { cycle: Cycle | null }) {
       body: JSON.stringify({
         plan: {
           name: 'Book ' + cycle?.title,
-          description: `Book ${cycle?.title} for ${data.date} ${slot.timeString}`,
+          description: `Book ${cycle?.title} for ${data.date.toLocaleDateString()} ${
+            slot.timeString
+          }`,
           price: cycle?.price * 100 || 0,
         },
         booking,
@@ -73,34 +109,78 @@ export default function CyclePage({ cycle }: { cycle: Cycle | null }) {
     if (error) alert(error.message)
   }
   return (
-    <Layout className={'rounded-xl bg-white p-5 shadow'}>
-      {cycle.image && <img width={50} height={50} src={cycle.image} />}
-      {cycle.title}
-      {cycle.host}
-      <ul>
-        {cycle.features.map((feature) => (
-          <li key={feature}>{feature}</li>
-        ))}
-      </ul>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Input label={'Date'} type={'date'} register={register('date', { required: true })} />
-        <Input
-          label={'Select Slot'}
-          options={SLOTS.map((slot) => ({ ...slot, title: slot.timeString }))}
-          type={'select'}
-          register={register('slot', { required: true })}
+    <Layout className={'rounded-xl bg-white shadow'}>
+      <SEO title={cycle.title + ' ' + cycle.model} />
+      <div className={' w-full'}>
+        <Image
+          width={1000}
+          height={1000}
+          className={'h-full w-full object-center'}
+          src={cycle.image || ''}
+          alt={''}
         />
-
-        <Button id={'booking'} variant={'primary'}>
-          Book
-        </Button>
-      </form>
+      </div>
+      <Wrapper>
+        <Container className={'pt-[50px] pb-[100px]'}>
+          <div className="flex flex-wrap justify-between gap-5 px-4 sm:px-10 md:flex-nowrap ">
+            <ProductDesSection cycle={cycle} />
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              name={'product'}
+              className={`sticky top-[120px] h-fit w-full  rounded-sm border-[1px] border-[#d7d7d7] border-b-yellow-400 pt-5 shadow-lg md:w-5/12 `}
+            >
+              <div className="grid grid-flow-row grid-cols-1">
+                <span className="mx-3 px-2 pt-3 pb-1 text-sm font-medium">Start Date</span>
+              </div>
+              <div className={'px-3'}>
+                <input
+                  type="date"
+                  {...register('date', { valueAsDate: true })}
+                  className="my-1 w-full  rounded-md   border-[1px] border-gray-300 px-2 py-2"
+                  placeholder="Trip Start"
+                  min={curr.toISOString().split('T')[0]}
+                />
+              </div>
+              <div className="grid grid-flow-row grid-cols-1">
+                <span className="mx-3 px-2 pt-3 pb-1 text-sm font-medium">Slot</span>
+              </div>
+              <div className={'px-3'}>
+                <select
+                  {...register('slot' as any)}
+                  className="mt-1 block  w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                >
+                  <option value={undefined}>Select Slot</option>
+                  {slots.map((slot) => (
+                    <option key={slot.code} value={slot.code}>
+                      {slot.title} - {slot.timeString}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <button
+                disabled={loading}
+                type="submit"
+                className="mt-7 w-full rounded-md border-[1px]  border-[#FFC300] bg-[#FFC300] py-5 text-white"
+              >
+                {!loading && (
+                  <div className="flex justify-between px-11  font-semibold">
+                    <h4>Book this car </h4> &nbsp;
+                    <span className={'text-xl'}>Rs. {cycle.price || 0}</span>
+                  </div>
+                )}
+                {loading && <div className={'text-center'}>Loading...</div>}
+              </button>
+            </form>
+          </div>
+        </Container>
+      </Wrapper>
     </Layout>
   )
 }
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const cycle = await getCycle(params?.cycle?.toString())
+  const bookings = await getCycleBookings(params?.cycle?.toString() || '')
   return {
-    props: { cycle },
+    props: { cycle, bookings },
   }
 }

@@ -185,11 +185,16 @@ export async function getUserCycles(email: string): Promise<CycleInterface[]> {
 }
 export async function createBooking(booking: Booking) {
   const _booking = new Document('booking', booking.id)
-  return await _booking.set(booking)
+  return await _booking.set({ ...booking, date: parseInt(booking.date.toString()) })
 }
 export async function getClientBookings(email: string): Promise<Booking[]> {
   const orders = new Collection('booking')
   return (await orders.getQuery('client', '==', email)) as Booking[]
+}
+
+export async function getCycleBookings(id: string): Promise<Booking[]> {
+  const orders = new Collection('booking')
+  return (await orders.getQuery('cycle', '==', id)) as Booking[]
 }
 export async function getHostBookings(email: string): Promise<Booking[]> {
   const orders = new Collection('booking')

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { getAuth, User } from 'firebase/auth'
@@ -37,7 +38,7 @@ export default function Header() {
   }, [])
   return (
     <Wrapper className={'sticky top-0 z-40 bg-p2 shadow-md'}>
-      <Container className={'relative flex w-full items-center gap-8 py-5 px-2'}>
+      <Container className={'relative flex w-full items-center gap-6 py-5 px-2'}>
         {!loading && user && (
           <div
             className={
@@ -59,36 +60,44 @@ export default function Header() {
             </Link>
           ))}
         </div>
-        <Button
-          width={150}
-          height={50}
-          id={'google'}
-          variant={'outline'}
-          className={
-            'flex gap-3 rounded-lg border bg-white p-4 shadow-md transition-transform duration-200 ease-in-out hover:scale-105'
-          }
-          onClick={() => {
-            setLoading(true)
-            if (!user) signInGoogle().finally(() => setLoading(false))
-            else router.push('/account')
-          }}
-        >
-          {loading && (
-            <div
-              className="text-success inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-p1 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-              role="status"
-            >
-              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                Loading...
-              </span>
-            </div>
-          )}
-          {!loading && user && <span>Account</span>}
-          {!loading && !user && 'Start Now'}
-          {!loading && !user && (
-            <img width={20} src="https://img.icons8.com/color/48/null/google-logo.png" />
-          )}
-        </Button>
+        {!user && (
+          <Button
+            width={150}
+            height={50}
+            id={'google'}
+            variant={'outline'}
+            className={
+              'flex gap-3 rounded-lg border bg-white p-4 shadow-md transition-transform duration-200 ease-in-out hover:scale-105'
+            }
+            onClick={() => {
+              setLoading(true)
+              if (!user) signInGoogle().finally(() => setLoading(false))
+            }}
+          >
+            {loading && (
+              <div
+                className="text-success inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-p1 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"
+              >
+                <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                  Loading...
+                </span>
+              </div>
+            )}
+            {!loading && !user && 'Start Now'}
+            {!loading && !user && (
+              <img width={20} src="https://img.icons8.com/color/48/null/google-logo.png" />
+            )}
+          </Button>
+        )}
+        {user && (
+          <Link
+            href={'/account'}
+            className={'h-10 w-10 overflow-hidden rounded-full border border-p1'}
+          >
+            <Image alt={''} width={40} height={40} src={user.photoURL || '/profile.png'} />
+          </Link>
+        )}
       </Container>
     </Wrapper>
   )
