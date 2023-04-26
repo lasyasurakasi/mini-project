@@ -7,8 +7,10 @@ import { Icon } from '@iconify/react'
 
 import Button from '../components/atoms/Button'
 import Container from '../components/atoms/Container'
+import SEO from '../components/atoms/Seo'
 import Wrapper from '../components/atoms/Wrapper'
 import CycleCard from '../components/molecules/CycleCard'
+import Layout from '../components/organisms/Layout'
 import { getCycles } from '../firebase/firestore'
 import Cycle from '../interfaces/Cycle'
 interface PageProps {
@@ -18,32 +20,22 @@ const PRODUCTS_TO_SHOW_PER_PAGE = 9
 export default function ProductType({ cycles }: PageProps) {
   const [currentindex, setCurrent] = useState(0)
 
-  const brands: string[] = []
-  const transmission_types = ['automatic', 'manual']
-  const destinations = ['inter-city', 'outside-city']
-  cycles.forEach((cycle) => {
-    if (cycle.model && !brands.includes(cycle.model.toLowerCase())) {
-      brands.push(cycle.model.toLowerCase())
-    }
-  })
+  const transmission_types = ['gearless', 'gear']
   const [minValue, setMinValue] = useState(0)
   const [_minValue, _setMinValue] = useState(10)
-  const [maxValue, setMaxValue] = useState(1000000)
-  const [_maxValue, _setMaxValue] = useState(10000)
-  const [selectedBrand, setSelectedBrand] = useState<string>()
+  const [maxValue, setMaxValue] = useState(99999999)
+  const [_maxValue, _setMaxValue] = useState(1000)
   const [selectedTransmission, setSelectedTransmission] = useState<string>()
-  const [selectedDestination, setSelectedDestination] = useState<string>()
-
   const [isOpen, setIsOpen] = useState(false)
 
   const filteredProducts = cycles.filter((cycle) => {
-    if (selectedBrand && cycle?.model?.toLowerCase() !== selectedBrand) return false
-    if (selectedTransmission && cycle?.gear?.toString() !== selectedTransmission) return false
+    if (selectedTransmission && transmission_types[cycle?.gear ? 1 : 0] !== selectedTransmission)
+      return false
     if ((cycle?.price || 0) < minValue) return false
     if ((cycle?.price || 0) > maxValue) return false
     return true
   })
-  const [numberofpages, setNumberOfPages] = useState(filteredProducts.length / 9)
+  const numberofpages = filteredProducts.length / 9
   const pages = []
   for (let i = 0; i < numberofpages; i++) {
     pages.push({
@@ -72,7 +64,8 @@ export default function ProductType({ cycles }: PageProps) {
     }
   }
   return (
-    <div>
+    <Layout>
+      <SEO title={'Cycles Listing'} />
       <Wrapper>
         <Container>
           <div className="pt-[100px] pb-20">
@@ -145,7 +138,7 @@ export default function ProductType({ cycles }: PageProps) {
                 </button>
               </div>
               <div className="mt-20">
-                <Menu className="relative m-[20px] flex flex-col rounded-[4px]">
+                <Menu as={'div' as any} className="relative m-[20px] flex flex-col rounded-[4px]">
                   <Menu.Button>
                     {({ open }) => (
                       <a
@@ -173,9 +166,9 @@ export default function ProductType({ cycles }: PageProps) {
                         _setMinValue(value[0]), _setMaxValue(value[1])
                       }}
                       pearling
-                      step={10000}
-                      max={350000}
-                      min={30000}
+                      step={10}
+                      max={1000}
+                      min={10}
                     />
                     <div className="my-4 grid grid-flow-row grid-cols-2 gap-x-3">
                       <div className="rounded-xl border-[2px] border-gray-200 bg-white px-2 py-1">
@@ -205,37 +198,7 @@ export default function ProductType({ cycles }: PageProps) {
                   </Menu.Items>
                 </Menu>
                 <hr />
-                <Menu className="relative m-[20px] flex flex-col rounded-[4px]">
-                  <Menu.Button>
-                    {({ open }) => (
-                      <a
-                        className={
-                          'flex cursor-pointer items-center justify-between rounded-md bg-neutral-100 px-4 py-2 hover:bg-gray-100' +
-                          (open ? 'font-semibold' : '')
-                        }
-                      >
-                        Brand <Icon icon="tabler:chevron-down" />
-                      </a>
-                    )}
-                  </Menu.Button>
-
-                  <Menu.Items className="absolute right-0 z-20 mt-[60px] flex w-[275px] flex-col bg-white  py-2.5 px-2 drop-shadow-lg ">
-                    {brands.map((brand) => (
-                      <Menu.Item
-                        key={brand}
-                        onClick={() => setSelectedBrand(brand)}
-                        className={
-                          'cursor-pointer p-3 capitalize hover:bg-[#2C68F6] hover:text-white'
-                        }
-                      >
-                        {brand}
-                      </Menu.Item>
-                    ))}
-                  </Menu.Items>
-                </Menu>
-
-                <hr />
-                <Menu className="relative m-[20px] flex flex-col rounded-[4px]">
+                <Menu as={'div' as any} className="relative m-[20px] flex flex-col rounded-[4px]">
                   <Menu.Button>
                     {({ open }) => (
                       <a
@@ -252,38 +215,9 @@ export default function ProductType({ cycles }: PageProps) {
                   <Menu.Items className="absolute right-0 z-20 mt-[60px] flex w-[275px] flex-col bg-white  py-2.5 px-2 drop-shadow-lg ">
                     {transmission_types.map((transmission) => (
                       <Menu.Item
+                        as={'div' as any}
                         key={transmission}
                         onClick={() => setSelectedTransmission(transmission)}
-                        className={
-                          'cursor-pointer p-3 capitalize hover:bg-[#2C68F6] hover:text-white'
-                        }
-                      >
-                        {transmission}
-                      </Menu.Item>
-                    ))}
-                  </Menu.Items>
-                </Menu>
-                <hr />
-                <Menu className="relative m-[20px] flex flex-col rounded-[4px]">
-                  <Menu.Button>
-                    {({ open }) => (
-                      <a
-                        className={
-                          'flex cursor-pointer items-center justify-between rounded-md bg-neutral-100 px-4 py-2 hover:bg-gray-100' +
-                          (open ? 'font-semibold' : '')
-                        }
-                      >
-                        <span>Destinations</span>
-                        <Icon icon="tabler:chevron-down" />
-                      </a>
-                    )}
-                  </Menu.Button>
-
-                  <Menu.Items className="absolute right-0 z-20 mt-[60px] flex w-[275px] flex-col bg-white  py-2.5 px-2 drop-shadow-lg ">
-                    {destinations.map((transmission) => (
-                      <Menu.Item
-                        key={transmission}
-                        onClick={() => setSelectedDestination(transmission)}
                         className={
                           'cursor-pointer p-3 capitalize hover:bg-[#2C68F6] hover:text-white'
                         }
@@ -300,11 +234,11 @@ export default function ProductType({ cycles }: PageProps) {
                     'my-5 mb-4 flex grid grid-cols-1 gap-2 px-8 sm:grid-cols-2 lg:grid-cols-4'
                   }
                 >
-                  {(minValue !== 0 || maxValue !== 1000000) && (
+                  {(minValue !== 0 || maxValue !== 99999999) && (
                     <div
                       onClick={() => {
                         setMinValue(0)
-                        setMaxValue(1000000)
+                        setMaxValue(99999999)
                       }}
                       className={
                         'flex h-10 cursor-pointer items-center justify-between  rounded-full bg-green-500 px-4 py-1 capitalize text-white'
@@ -312,20 +246,6 @@ export default function ProductType({ cycles }: PageProps) {
                     >
                       Price Filter: ${minValue}-${maxValue}
                       <span className="justify-self-end">
-                        <Icon className="h-10 w-8" icon={'basil:cross-outline'} color={'white'} />
-                      </span>
-                    </div>
-                  )}
-
-                  {selectedBrand && (
-                    <div
-                      onClick={() => setSelectedBrand(undefined)}
-                      className={
-                        'flex h-10 cursor-pointer items-center justify-between  rounded-full bg-orange-500 px-4 py-1 capitalize text-white'
-                      }
-                    >
-                      Brand Filter: {selectedBrand}{' '}
-                      <span>
                         <Icon className="h-10 w-8" icon={'basil:cross-outline'} color={'white'} />
                       </span>
                     </div>
@@ -338,19 +258,6 @@ export default function ProductType({ cycles }: PageProps) {
                       }
                     >
                       Transmission Filter: {selectedTransmission}{' '}
-                      <span>
-                        <Icon className="h-10 w-8" icon={'basil:cross-outline'} color={'white'} />
-                      </span>
-                    </div>
-                  )}
-                  {selectedDestination && (
-                    <div
-                      onClick={() => setSelectedDestination(undefined)}
-                      className={
-                        'flex h-10 cursor-pointer items-center justify-between rounded-full bg-red-500 px-4 py-1 capitalize text-white'
-                      }
-                    >
-                      Destination Filter: {selectedDestination}{' '}
                       <span>
                         <Icon className="h-10 w-8" icon={'basil:cross-outline'} color={'white'} />
                       </span>
@@ -376,7 +283,7 @@ export default function ProductType({ cycles }: PageProps) {
                   : currentindex + PRODUCTS_TO_SHOW_PER_PAGE}{' '}
                 of {lenghtofproducts} cars
               </h1>
-              <Menu className="relative flex flex-col px-1">
+              <Menu as={'div' as any} className="relative flex flex-col px-1">
                 <Menu.Button>
                   {({ open }) => (
                     <a
@@ -404,9 +311,9 @@ export default function ProductType({ cycles }: PageProps) {
                       _setMinValue(value[0]), _setMaxValue(value[1])
                     }}
                     pearling
-                    step={10000}
-                    max={350000}
-                    min={30000}
+                    step={10}
+                    max={1000}
+                    min={10}
                   />
                   <div className="my-4 grid grid-flow-row grid-cols-2 gap-x-3">
                     <div className="rounded-xl border-[2px] border-gray-200 bg-white px-2 py-1">
@@ -435,7 +342,8 @@ export default function ProductType({ cycles }: PageProps) {
                   </Menu.Item>
                 </Menu.Items>
               </Menu>
-              <Menu className="relative flex flex-col px-1">
+
+              <Menu as={'div' as any} className="relative flex flex-col px-1">
                 <Menu.Button>
                   {({ open }) => (
                     <a
@@ -444,36 +352,7 @@ export default function ProductType({ cycles }: PageProps) {
                         (open ? 'font-semibold' : '')
                       }
                     >
-                      Brand <Icon icon="tabler:chevron-down" />
-                    </a>
-                  )}
-                </Menu.Button>
-
-                <Menu.Items className="absolute right-0 z-20 mt-[60px] flex w-[275px] flex-col bg-white  py-2.5 px-2 drop-shadow-lg ">
-                  {brands.map((brand) => (
-                    <Menu.Item
-                      key={brand}
-                      onClick={() => setSelectedBrand(brand)}
-                      className={
-                        'cursor-pointer p-3 capitalize hover:bg-[#2C68F6] hover:text-white'
-                      }
-                    >
-                      {brand}
-                    </Menu.Item>
-                  ))}
-                </Menu.Items>
-              </Menu>
-
-              <Menu className="relative flex flex-col px-1">
-                <Menu.Button>
-                  {({ open }) => (
-                    <a
-                      className={
-                        'flex cursor-pointer items-center rounded-md bg-neutral-100 px-4 py-2 hover:bg-gray-100' +
-                        (open ? 'font-semibold' : '')
-                      }
-                    >
-                      Transmission <Icon icon="tabler:chevron-down" />{' '}
+                      Gear <Icon icon="tabler:chevron-down" />{' '}
                     </a>
                   )}
                 </Menu.Button>
@@ -481,36 +360,9 @@ export default function ProductType({ cycles }: PageProps) {
                 <Menu.Items className="absolute right-0 z-20 mt-[60px] flex w-[275px] flex-col bg-white  py-2.5 px-2 drop-shadow-lg ">
                   {transmission_types.map((transmission) => (
                     <Menu.Item
+                      as={'div' as any}
                       key={transmission}
                       onClick={() => setSelectedTransmission(transmission)}
-                      className={
-                        'cursor-pointer p-3 capitalize hover:bg-[#2C68F6] hover:text-white'
-                      }
-                    >
-                      {transmission}
-                    </Menu.Item>
-                  ))}
-                </Menu.Items>
-              </Menu>
-              <Menu className="relative flex flex-col px-1">
-                <Menu.Button>
-                  {({ open }) => (
-                    <a
-                      className={
-                        'flex cursor-pointer items-center rounded-md bg-neutral-100 px-4 py-2 hover:bg-gray-100' +
-                        (open ? 'font-semibold' : '')
-                      }
-                    >
-                      Destination <Icon icon="tabler:chevron-down" />{' '}
-                    </a>
-                  )}
-                </Menu.Button>
-
-                <Menu.Items className="absolute right-0 z-20 mt-[60px] flex w-[275px] flex-col bg-white  py-2.5 px-2 drop-shadow-lg ">
-                  {destinations.map((transmission) => (
-                    <Menu.Item
-                      key={transmission}
-                      onClick={() => setSelectedDestination(transmission)}
                       className={
                         'cursor-pointer p-3 capitalize hover:bg-[#2C68F6] hover:text-white'
                       }
@@ -524,11 +376,11 @@ export default function ProductType({ cycles }: PageProps) {
           </div>
 
           <div className={'mb-4 flex grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4'}>
-            {(minValue !== 0 || maxValue !== 1000000) && (
+            {(minValue !== 0 || maxValue !== 99999999) && (
               <div
                 onClick={() => {
                   setMinValue(0)
-                  setMaxValue(1000000)
+                  setMaxValue(99999999)
                 }}
                 className={
                   'flex h-10 cursor-pointer items-center justify-between  rounded-full bg-green-500 px-4 py-1 capitalize text-white'
@@ -541,19 +393,6 @@ export default function ProductType({ cycles }: PageProps) {
               </div>
             )}
 
-            {selectedBrand && (
-              <div
-                onClick={() => setSelectedBrand(undefined)}
-                className={
-                  'flex h-10 cursor-pointer items-center justify-between  rounded-full bg-orange-500 px-4 py-1 capitalize text-white'
-                }
-              >
-                Brand Filter: {selectedBrand}{' '}
-                <span>
-                  <Icon className="h-10 w-8" icon={'basil:cross-outline'} color={'white'} />
-                </span>
-              </div>
-            )}
             {selectedTransmission && (
               <div
                 onClick={() => setSelectedTransmission(undefined)}
@@ -561,27 +400,14 @@ export default function ProductType({ cycles }: PageProps) {
                   'flex h-10 cursor-pointer items-center justify-between rounded-full bg-blue-500 px-4 py-1 capitalize text-white'
                 }
               >
-                Transmission Filter: {selectedTransmission}{' '}
-                <span>
-                  <Icon className="h-10 w-8" icon={'basil:cross-outline'} color={'white'} />
-                </span>
-              </div>
-            )}
-            {selectedDestination && (
-              <div
-                onClick={() => setSelectedDestination(undefined)}
-                className={
-                  'flex h-10 cursor-pointer items-center justify-between rounded-full bg-red-500 px-4 py-1 capitalize text-white'
-                }
-              >
-                Destination Filter: {selectedDestination}{' '}
+                Gear: {selectedTransmission}{' '}
                 <span>
                   <Icon className="h-10 w-8" icon={'basil:cross-outline'} color={'white'} />
                 </span>
               </div>
             )}
           </div>
-          <div className="grid grid-flow-row gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-flow-row gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {filteredProducts
               .slice(currentindex, currentindex + PRODUCTS_TO_SHOW_PER_PAGE)
               .map((item, index) => (
@@ -629,7 +455,7 @@ export default function ProductType({ cycles }: PageProps) {
           </div>
         </Container>
       </Wrapper>
-    </div>
+    </Layout>
   )
 }
 export async function getServerSideProps() {

@@ -17,7 +17,7 @@ type PROPS_TYPE = {
   onClick?: () => void
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset' | undefined
-  id: string
+  id?: string
 }
 
 export default function Button(props: React.PropsWithChildren<PROPS_TYPE>) {
