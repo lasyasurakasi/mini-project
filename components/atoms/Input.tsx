@@ -1,5 +1,5 @@
 import { UseFormRegister, UseFormRegisterReturn } from 'react-hook-form'
-const ERROR_MESSAGES = {
+export const ERROR_MESSAGES = {
   required: 'This field is required',
   minLength: 'Length should be greator than 5',
   invalid: 'Invalid Credentials',

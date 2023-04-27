@@ -122,13 +122,15 @@ export default function CyclePage({
       <Wrapper>
         <Container className={''}>
           <div className={' mx-auto w-full md:w-1/2'}>
-            <Image
-              width={1000}
-              height={1000}
-              className={'h-full w-full object-center'}
-              src={cycle.image || 'cycle'}
-              alt={''}
-            />
+            {cycle.image && (
+              <Image
+                width={1000}
+                height={1000}
+                className={'h-full w-full object-center'}
+                src={cycle.image}
+                alt={''}
+              />
+            )}
           </div>
           <div className=" flex flex-wrap-reverse justify-between gap-10 px-4 pt-[50px] pb-[100px] sm:px-10 md:flex-nowrap ">
             <ProductDesSection

@@ -25,11 +25,13 @@ const ProductDesSection = ({
         {cycle.title} {cycle.model}
       </h1>
       {rawUser?.email === cycle.host && (
-        <Link className={'mb-7'} href={'/edit/' + cycle.id}>
-          <Button width={50} height={25}>
-            Edit
-          </Button>
-        </Link>
+        <div className={'mb-7'}>
+          <Link href={'/edit/' + cycle.id}>
+            <Button width={50} height={25}>
+              Edit
+            </Button>
+          </Link>
+        </div>
       )}
       <div className="mb-16 flex flex-wrap gap-5">
         {cycle.features?.map((item, index) => {
