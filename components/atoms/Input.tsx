@@ -23,8 +23,8 @@ export default function Input({
   let Component: any = 'input'
   if (type === 'textarea') Component = 'textarea'
   return (
-    <div>
-      <div>{label}</div>
+    <div className={'mb-5'}>
+      <div className={'mb-1 text-sm font-semibold'}>{label}</div>
       {type === 'select' && (
         <select {...register}>
           {options?.map((option) => (
@@ -34,8 +34,20 @@ export default function Input({
           ))}
         </select>
       )}
-      {type !== 'select' && <Component type={type} placeholder={placeholder} {...register} />}
-      <small>{ERROR_MESSAGES[errorCode as keyof typeof ERROR_MESSAGES]}</small>
+      {type !== 'select' && (
+        <Component
+          className={
+            ' rounded-lg border border-gray-100  shadow-lg ' +
+            (type === 'checkbox' ? 'ml-1 mt-1 scale-150' : 'w-full px-6 py-4')
+          }
+          type={type}
+          placeholder={placeholder}
+          {...register}
+        />
+      )}
+      <div className={'mt-1 text-sm text-red-500'}>
+        {ERROR_MESSAGES[errorCode as keyof typeof ERROR_MESSAGES]}
+      </div>
     </div>
   )
 }
