@@ -6,19 +6,19 @@ import Wrapper from '../atoms/Wrapper'
 
 const SLIDES = [
   {
-    name: 'Register',
+    name: 'Log In',
     image: '/slide1.svg',
-    desc: 'Complete a simple KYB process to get your SaaSPay account up and running.',
+    desc: 'Complete a simple authorization process through Google Sign-in.',
   },
   {
-    name: 'Upload Order Details',
+    name: 'Select a cycle',
     image: '/slide2.svg',
-    desc: 'Upload your customer details and list down your products and their subscription tiers.',
+    desc: 'Choose from the variety of cycles available.',
   },
   {
-    name: 'Receive Upfront Payment',
+    name: 'Complete Payment',
     image: '/slide3.svg',
-    desc: "Get paid in full, on Day 1. Receive a year's worth of payment in your bank account as soon as you sell!",
+    desc: 'Complete your payment through our fast and secure payment portal',
   },
 ]
 export default function HomeHowItWorks() {
@@ -27,16 +27,13 @@ export default function HomeHowItWorks() {
       <Container className="flex !max-w-[955px] flex-col items-center pt-14 pb-6 text-center md:pt-20 md:pb-12">
         <div>
           <div className={'relative mb-1 md:mb-3'}>
-            {/*<Text text={'Hassle free'} textStyle={'dm-700-41-51'} className={'absolute text-center left-1/2 w-full -translate-x-1/2 -top-6 !text-[#0D152E0F]'} />*/}
+            {/<Text text={'Hassle free'} textStyle={'dm-700-41-51'} className={'absolute text-center left-1/2 w-full -translate-x-1/2 -top-6 !text-[#0D152E0F]'} />/}
             <span className={'text-4xl font-bold'}>Here’s how it works</span>
           </div>
         </div>
         <div>
           <div className={'mb-4 max-w-[533px] md:mb-20 md:pb-2'}>
-            <span className={'!text-p3 opacity-70'}>
-              Get paid upfront. Convert monthly subscribers to annual customers with one-click
-              financing
-            </span>
+            <span className={'!text-p3 opacity-70'}>Rent your cycle in just a few clicks</span>
           </div>
         </div>
         <Carousel>
