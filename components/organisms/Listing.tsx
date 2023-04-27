@@ -43,7 +43,7 @@ export default function Listing({ cycles }: { cycles: Cycle[] }) {
             ))}
           </div>
           <div className="flex max-h-max justify-center py-12 sm:hidden">
-            <Link href={'/vehicles'}>
+            <Link href={'/cycles'}>
               <button className="rounded-full border bg-[#ffffff]  py-2 px-4 text-black">
                 <span className="px-2">View all</span>
                 <svg

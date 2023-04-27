@@ -24,6 +24,7 @@ export function useUser() {
 function MyApp({ Component, pageProps }: AppProps) {
   const [rawUser, setRawUser] = useState<User | null>()
   const [user, setUser] = useState<UserInterface | null>()
+  console.log(rawUser)
   useEffect(() => {
     onAuthStateChanged(auth, (_user) => {
       if (_user) {

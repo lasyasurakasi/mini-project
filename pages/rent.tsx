@@ -33,6 +33,7 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
   const { rawUser } = useUser()
   useEffect(() => {
+    if (rawUser === undefined) return
     if (cycle && rawUser?.email !== cycle.host) {
       router.push('/')
     }
@@ -42,9 +43,9 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
       return
     }
   }, [cycle, router])
-  if (cycle && auth.currentUser?.email !== cycle.host) return null
+  if (cycle && rawUser?.email !== cycle.host) return null
 
-  if (!auth.currentUser) {
+  if (!rawUser) {
     return null
   }
   const f: any = watch('image' as any)
@@ -59,14 +60,16 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
     }
   }
   async function onSubmit(data: FieldValues) {
-    if (auth.currentUser?.email) {
+    if (rawUser?.email) {
       const id = v4()
+      setLoading(true)
+
       const image =
         cycle?.image === displayImage
           ? cycle.image
           : await uploadFile(data.image?.item(0), '/cycle/' + (cycle?.id || id))
-      setLoading(true)
-      if (cycle && auth.currentUser.email === cycle.host) {
+
+      if (cycle && rawUser.email === cycle.host) {
         updateCycle(cycle.id, {
           features: data.features.split(','),
           gear: data.gear,
@@ -85,7 +88,7 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
           model: data.model,
           price: data.price,
           title: data.title,
-          host: auth.currentUser.email,
+          host: rawUser.email,
           image,
           rating: 0,
           timeAdded: new Date().getTime(),
