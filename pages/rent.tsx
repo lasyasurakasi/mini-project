@@ -140,6 +140,16 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
         </Button>
       </form>
       {cycle && (
+        <Button
+          onClick={() => updateCycle(cycle.id, { paused: !cycle.paused })}
+          variant={'primary'}
+          id={''}
+          type={'submit'}
+        >
+          {cycle.paused && 'Un'}Pause cycle
+        </Button>
+      )}
+      {cycle && (
         <Button onClick={removeCycle} variant={'primary'} id={''} type={'submit'}>
           Delete cycle
         </Button>
