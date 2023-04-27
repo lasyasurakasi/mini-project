@@ -30,7 +30,7 @@ export default function Footer() {
             </div>
           </Link>
         </div>
-        <div className={'flex flex-col gap-2 text-center md:text-left'}>
+        <div className={'flex flex-col gap-4 text-center md:text-left'}>
           <div className={'text-xl font-semibold'}>Pages</div>
           <div>
             {ROUTES.map((route) => (
@@ -40,13 +40,13 @@ export default function Footer() {
             ))}
           </div>
         </div>
-        <div className={'flex flex-col gap-2 text-center md:text-left'}>
+        <div className={'flex flex-col gap-4 text-center md:text-left'}>
           <div className={'text-xl font-semibold'}>Get in touch</div>
-          <div className={'mx-auto flex  gap-3 md:mx-0'}>
+          <div className={'mx-auto flex  gap-4 md:mx-0'}>
             <div>Email</div>
             <div>lci2020012@iiitl.ac.in</div>
           </div>
-          <div className={'mx-auto flex gap-3 md:mx-0'}>
+          <div className={'mx-auto flex gap-4 md:mx-0'}>
             <div>Phone</div>
             <div>+919456679268</div>
           </div>

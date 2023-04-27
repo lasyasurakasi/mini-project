@@ -135,9 +135,10 @@ export default function Sidebar({
               )}
               {!loading && !user && 'Start Now'}
               {!loading && !user && (
-                <img
+                <Image
                   alt={'google'}
                   width={20}
+                  height={20}
                   src="https://img.icons8.com/color/48/null/google-logo.png"
                 />
               )}

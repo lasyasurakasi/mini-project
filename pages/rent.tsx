@@ -1,4 +1,5 @@
 import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { getAuth } from 'firebase/auth'
 import { FieldValues, useForm } from 'react-hook-form'
@@ -95,10 +96,12 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
         <Container className={'my-10'}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={'mb-9 flex h-[150px]  '}>
-              <img
+              <Image
+                height={150}
+                width={150}
                 onClick={() => fileRef.current?.click()}
                 alt={'cycle'}
-                className={' mx-auto cursor-pointer overflow-hidden rounded-xl object-center'}
+                className={'mx-auto w-auto cursor-pointer overflow-hidden rounded-xl object-center'}
                 src={displayImage}
               />
             </div>

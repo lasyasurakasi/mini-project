@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 
 import Carousel from '../atoms/Carousel'
 import Container from '../atoms/Container'
@@ -49,10 +50,12 @@ export default function HomeHowItWorks() {
               className={'flex flex-wrap justify-between pb-10 text-start md:flex-nowrap '}
             >
               <div className={'w-full flex-shrink-0 md:w-auto md:max-w-[50%]'}>
-                <img
+                <Image
                   loading="lazy"
                   alt={'Image for ' + slide.name}
                   src={slide.image}
+                  height={263}
+                  width={448}
                   className={'mx-auto md:mx-0 '}
                 />
               </div>
