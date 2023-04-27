@@ -216,7 +216,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       .slice(0, 3)
       .map(getCycle)
   )
-  let similarCycles = []
+  let similarCycles: any[] = []
   const host = await getUser(cycle?.host || '')
 
   if (cycle) {
@@ -231,11 +231,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         body: formdata,
         redirect: 'follow',
       })
-      const resCycles: Cycle[] = await res.json()
+      const resCycles: (Cycle | null)[] = await res.json()
 
       if (resCycles)
         similarCycles = await Promise.all(
-          resCycles.slice(1, 4).map(async (x) => await getCycle(x.id.trim()))
+          resCycles.slice(1, 4).map(async (x) => await getCycle(x?.id.trim()))
         )
     } catch (e) {
       console.error(e)
