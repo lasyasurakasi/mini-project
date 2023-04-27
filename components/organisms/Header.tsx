@@ -73,7 +73,11 @@ export default function Header() {
         <div className={'hidden flex-grow justify-end gap-5 md:flex'}>
           {ROUTES.map((route) => (
             <Link
-              className={currentPath === route.slug ? 'font-bold text-p1 ' : ''}
+              className={
+                currentPath === route.slug
+                  ? 'scale-100 font-bold text-p1 '
+                  : 'font-bold  hover:scale-100 hover:text-blue-600 '
+              }
               key={route.slug}
               href={route.slug}
             >
