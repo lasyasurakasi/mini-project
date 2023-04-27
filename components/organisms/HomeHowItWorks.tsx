@@ -27,7 +27,13 @@ export default function HomeHowItWorks() {
       <Container className="flex !max-w-[955px] flex-col items-center pt-14 pb-6 text-center md:pt-20 md:pb-12">
         <div>
           <div className={'relative mb-1 md:mb-3'}>
-            {/<Text text={'Hassle free'} textStyle={'dm-700-41-51'} className={'absolute text-center left-1/2 w-full -translate-x-1/2 -top-6 !text-[#0D152E0F]'} />/}
+            {/*<Text*/}
+            {/*  text={'Hassle free'}*/}
+            {/*  textStyle={'dm-700-41-51'}*/}
+            {/*  className={*/}
+            {/*    'absolute left-1/2 -top-6 w-full -translate-x-1/2 text-center !text-[#0D152E0F]'*/}
+            {/*  }*/}
+            {/*/>*/}
             <span className={'text-4xl font-bold'}>Here’s how it works</span>
           </div>
         </div>
