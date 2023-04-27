@@ -226,8 +226,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         redirect: 'follow',
       })
       const resCycles = await res.json()
+
       if (resCycles)
-        similarCycles = await Promise.all(resCycles.slice(0, 3).map(() => getCycle(resCycles.id)))
+        similarCycles = await Promise.all(resCycles.slice(0, 3).map((x) => getCycle(x.id)))
     } catch (e) {
       console.error(e)
     }
