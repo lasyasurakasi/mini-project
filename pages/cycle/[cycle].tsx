@@ -12,9 +12,10 @@ import Wrapper from '../../components/atoms/Wrapper'
 import Layout from '../../components/organisms/Layout'
 import ProductDesSection from '../../components/organisms/ProductDesSection'
 import { signInGoogle } from '../../firebase/auth'
-import { getClientBookings, getCycle, getCycleBookings } from '../../firebase/firestore'
+import { getClientBookings, getCycle, getCycleBookings, getUser } from '../../firebase/firestore'
 import Booking from '../../interfaces/Booking'
 import Cycle from '../../interfaces/Cycle'
+import UserInterface from '../../interfaces/User'
 import { useUser } from '../../pages/_app'
 import getStripe from '../../stripe'
 export const SLOTS = [
@@ -32,11 +33,13 @@ export default function CyclePage({
   bookings,
   similarBoughtCycles,
   similarCycles,
+  host,
 }: {
   cycle: Cycle | null
   bookings: Booking[]
   similarBoughtCycles: Cycle[]
   similarCycles: Cycle[]
+  host: UserInterface
 }) {
   const { rawUser } = useUser()
   var curr = new Date()
@@ -132,6 +135,7 @@ export default function CyclePage({
               similarCycles={similarCycles}
               similarBoughtCycles={similarBoughtCycles}
               cycle={cycle}
+              host={host}
             />
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -213,6 +217,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       .map(getCycle)
   )
   let similarCycles = []
+  const host = await getUser(cycle?.host || '')
+
   if (cycle) {
     try {
       const formdata = new FormData()
@@ -235,6 +241,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   }
 
   return {
-    props: { cycle, bookings, similarBoughtCycles: similarBoughtCycles, similarCycles },
+    props: { host, cycle, bookings, similarBoughtCycles: similarBoughtCycles, similarCycles },
   }
 }
