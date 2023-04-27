@@ -22,7 +22,6 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
     formState: { errors },
   } = useForm({ defaultValues: { ...cycle, features: cycle?.features?.join(',') } || {} })
   const router = useRouter()
-  const fileRef = useRef<any>(null)
   const [loading, setLoading] = useState(false)
   const [displayImage, setDisplayImage] = useState(
     cycle?.image ||
@@ -59,6 +58,8 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
     if (auth.currentUser?.email) {
       const id = v4()
       const image = await uploadFile(data.image?.item(0), '/cycle/' + (cycle?.id || id))
+      setLoading(true)
+      console.log(image)
       if (cycle && auth.currentUser.email === cycle.host) {
         updateCycle(cycle.id, {
           features: data.features.split(','),
@@ -99,7 +100,9 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
               <Image
                 height={150}
                 width={150}
-                onClick={() => fileRef.current?.click()}
+                onClick={() => {
+                  document.getElementById('image')?.click()
+                }}
                 alt={'cycle'}
                 className={'mx-auto w-auto cursor-pointer overflow-hidden rounded-xl object-center'}
                 src={displayImage}
@@ -107,8 +110,8 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
             </div>
             <input
               className={'hidden'}
+              id={'image'}
               {...register('image')}
-              ref={fileRef}
               onChange={onFileChange}
               type={'file'}
             />
@@ -161,6 +164,7 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
               variant={'primary'}
               id={''}
               type={'submit'}
+              disabled={loading}
             >
               {cycle ? 'Update' : 'Add'} Cycle
             </Button>
