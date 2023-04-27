@@ -1,7 +1,10 @@
 import React from 'react'
+import Link from 'next/link'
 
 import Cycle from '../../interfaces/Cycle'
 import UserInterface from '../../interfaces/User'
+import { useUser } from '../../pages/_app'
+import Button from '../atoms/Button'
 import CycleCard from '../molecules/CycleCard'
 const ProductDesSection = ({
   cycle,
@@ -14,12 +17,18 @@ const ProductDesSection = ({
   similarCycles: Cycle[]
   host: UserInterface
 }) => {
+  const { rawUser } = useUser()
   return (
     <div className=" flex-grow">
       <span className="font-inter mb-3 text-sm capitalize text-[#8a8a8a]">by - {host?.name}</span>
       <h1 className="mb-7 text-4xl font-semibold text-black">
         {cycle.title} {cycle.model}
       </h1>
+      {rawUser?.email === cycle.host && (
+        <Link href={'/edit/' + cycle.id}>
+          <Button>Edit</Button>
+        </Link>
+      )}
       <div className="mb-16 flex flex-wrap gap-5">
         {cycle.features?.map((item, index) => {
           return (

@@ -234,7 +234,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       const resCycles = await res.json()
 
       if (resCycles)
-        similarCycles = await Promise.all(resCycles.slice(0, 3).map((x) => getCycle(x.id)))
+        similarCycles = await Promise.all(
+          resCycles.slice(1, 4).map(async (x) => await getCycle(x.id.trim()))
+        )
     } catch (e) {
       console.error(e)
     }
