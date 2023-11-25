@@ -1,9 +1,9 @@
 import Head from 'next/head'
 
 const siteMetadata = {
-  title: 'CMS - Cycle Management System',
-  description: 'Cycle Rental Systems',
-  keywords: 'cms, cycle, management',
+  title: 'Web application for buying and renting for the students by the students',
+  description: 'Web application for buying and renting for the students by the students',
+  keywords: 'Web application for buying and renting for the students by the students',
   url: 'https://mini-project-umber-six.vercel.app/',
   image: 'https://mini-project-umber-six.vercel.app/logo.png',
 }

@@ -16,13 +16,13 @@ export default function HomeHero({ displayWaitListForm }: any) {
         <div className="left md:mx-none mx-auto text-center md:w-[355px] md:text-start lg:w-1/2 ">
           <h1 className={'sr-only'}>Boost SaaS Sales with Flexible BNPL Payments</h1>
           <div>
-            <div className={'mt-[4px] max-w-[460px]'}>
-              <span className={'text-5xl font-black'}>Your Bike when you need it the most</span>
+            <div className={'mt-[4px] max-w-[470px]'}>
+              <span className={'text-5xl font-black'}>Rent with ease, Whenever you please</span>
             </div>
           </div>
           <div>
             <div className={'mt-2 mb-4 max-w-[440px] text-p3 opacity-80 md:my-6'}>
-              <span>Rent your cycle now or you will not be able to </span>
+              <span>Renting made right, from bottle to kite</span>
             </div>
           </div>
           <Link href={'/cycles'}>
@@ -33,7 +33,7 @@ export default function HomeHero({ displayWaitListForm }: any) {
               width={220}
               variant={'primary'}
             >
-              <span className={'!text-white'}>Rent a cycle</span>
+              <span className={'!text-white'}>Rent Now!</span>
 
               <svg
                 className={'ml-2.5'}

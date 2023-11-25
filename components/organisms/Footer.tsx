@@ -26,7 +26,7 @@ export default function Footer() {
               className={'text-1.5xl text-center font-bold hover:text-purple-900'}
               style={{ color: '#F5C300' }}
             >
-              Cycle Management System
+              Web application for buying and renting for the students by the students
             </div>
           </Link>
         </div>

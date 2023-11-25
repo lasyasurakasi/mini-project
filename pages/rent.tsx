@@ -154,23 +154,23 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
                 required: true,
               })}
               label={'Model'}
-              placeholder={'Enter the Model of the cycle'}
+              placeholder={'Enter the Type of the product'}
               errorCode={errors['model']?.type}
             />
             <Input
               register={register('features')}
-              label={'Features of the cycle, seperated by comma'}
+              label={'Features of the product, seperated by comma'}
               type={'textarea'}
               placeholder={'Features'}
               errorCode={errors['features']?.type}
             />
-            <Input
-              register={register('gear')}
-              label={'Cycle has gear?'}
-              type={'checkbox'}
-              placeholder={'Does the cycle have gear'}
-              errorCode={errors['gear']?.type}
-            />
+            {/*<Input*/}
+            {/*  register={register('gear')}*/}
+            {/*  label={'Cycle has gear?'}*/}
+            {/*  type={'checkbox'}*/}
+            {/*  placeholder={'Does the cycle have gear'}*/}
+            {/*  errorCode={errors['gear']?.type}*/}
+            {/*/>*/}
             <Button
               className={'mx-auto mt-4'}
               width={140}
@@ -180,7 +180,7 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
               type={'submit'}
               disabled={loading}
             >
-              {cycle ? 'Update' : 'Add'} Cycle
+              {cycle ? 'Update' : 'Add'} Product
             </Button>
           </form>
           {cycle && (

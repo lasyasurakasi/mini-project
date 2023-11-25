@@ -14,7 +14,7 @@ const SLIDES = [
   {
     name: 'Select a cycle',
     image: '/slide2.svg',
-    desc: 'Choose from the variety of cycles available.',
+    desc: 'Choose from the variety of products available.',
   },
   {
     name: 'Complete Payment',
@@ -40,7 +40,7 @@ export default function HomeHowItWorks() {
         </div>
         <div>
           <div className={'mb-4 max-w-[533px] md:mb-20 md:pb-2'}>
-            <span className={'!text-p3 opacity-70'}>Rent your cycle in just a few clicks</span>
+            <span className={'!text-p3 opacity-70'}>Rent or buy in just a few clicks</span>
           </div>
         </div>
         <Carousel>

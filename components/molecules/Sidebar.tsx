@@ -76,7 +76,7 @@ export default function Sidebar({
                 className={'text-1.5xl hidden text-center font-bold hover:text-purple-900 md:block'}
                 style={{ color: '#F5C300' }}
               >
-                Cycle Management System
+                Web application for buying and renting for the students by the students
               </div>
             </Link>
           </div>

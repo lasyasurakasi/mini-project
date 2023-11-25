@@ -28,12 +28,12 @@ export default function Header() {
 
   if (user)
     ROUTES.push({
-      title: 'Rent Cycle',
+      title: 'Rent',
       slug: '/cycles',
     })
   if (user)
     ROUTES.push({
-      title: 'Lease Cycle',
+      title: 'Lease',
       slug: '/rent',
     })
 
@@ -50,15 +50,7 @@ export default function Header() {
       <Container className={'relative flex w-full items-center gap-6 py-5 px-2'}>
         <Sidebar currentPath={currentPath} ROUTES={ROUTES} user={user} />
 
-        {!loading && user && (
-          <div
-            className={
-              'absolute top-1/2 left-1/2 hidden -translate-y-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-400 via-teal-500 to-yellow-500 bg-clip-text text-xl font-bold text-transparent md:block '
-            }
-          >
-            Welcome {user?.displayName}!
-          </div>
-        )}
+
         <Link href={'/'} className={'flex items-center gap-3'}>
           <div className={'h-12 w-12'}>
             <Image width={300} height={300} src={'/logo.png'} alt={'cycle management system'} />
@@ -67,10 +59,19 @@ export default function Header() {
             className={'text-1.5xl hidden text-center font-bold hover:text-purple-900 md:block'}
             style={{ color: '#F5C300' }}
           >
-            Cycle Management System
+            Web application for buying and renting for the students by the students
           </div>
         </Link>
-        <div className={'hidden flex-grow justify-end gap-5 md:flex'}>
+        <div className={'hidden flex-grow justify-end gap-5 md:flex items-center'}>
+          {!loading && user && (
+            <div
+              className={
+                ' hidden bg-gradient-to-r from-blue-400 via-teal-500 to-yellow-500 bg-clip-text text-xl font-bold text-transparent md:block '
+              }
+            >
+              Welcome {user?.displayName}!
+            </div>
+          )}
           {ROUTES.map((route) => (
             <Link
               className={

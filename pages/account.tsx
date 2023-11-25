@@ -75,16 +75,16 @@ export default function Account() {
             }
           >
             <div className={'mb-10'}>
-              <div className={'mb-5 text-2xl font-bold'}>My Cycles</div>
+              <div className={'mb-5 text-2xl font-bold'}>My Products</div>
               <div className={'flex grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 '}>
                 {cycles.map((cycle) => (
                   <CycleCard cycle={cycle} key={cycle.id} />
                 ))}
               </div>
-              {!cycles.length && <div className={'text-center italic'}>No Cycles Added</div>}
+              {!cycles.length && <div className={'text-center italic'}>No Products rented</div>}
             </div>
             <div className={'mb-10'}>
-              <div className={'mb-5 text-2xl font-bold'}>My Cycles Booked</div>
+              <div className={'mb-5 text-2xl font-bold'}>My Bookings</div>
               <div className={'flex grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3'}>
                 {bookingsForMe.map((booking) => (
                   <BookingCard booking={booking} key={booking.id} />
@@ -93,7 +93,7 @@ export default function Account() {
               {!bookingsForMe.length && <div className={'text-center italic'}>No Bookings</div>}
             </div>
             <div className={'mb-10'}>
-              <div className={'mb-5 text-2xl font-bold'}>Cycles I Booked</div>
+              <div className={'mb-5 text-2xl font-bold'}>Bookings by me</div>
               <div className={'flex grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 '}>
                 {bookingsByMe.map((booking) => (
                   <BookingCard booking={booking} key={booking.id} />
