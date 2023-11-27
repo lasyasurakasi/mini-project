@@ -84,7 +84,7 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
         createCycle({
           id,
           features: data.features.split(','),
-          gear: data.gear,
+          gear: false,
           model: data.model,
           price: data.price,
           title: data.title,
@@ -94,7 +94,7 @@ export default function Rent({ cycle }: { cycle?: Cycle }) {
           timeAdded: new Date().getTime(),
         }).then(() => {
           alert('Added')
-          router.push('/cycle/' + id)
+          // router.push('/cycle/' + id)
         })
       }
     }
