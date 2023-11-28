@@ -12,7 +12,7 @@ const SLIDES = [
     desc: 'Complete a simple authorization process through Google Sign-in.',
   },
   {
-    name: 'Select a cycle',
+    name: 'Select a product',
     image: '/slide2.svg',
     desc: 'Choose from the variety of products available.',
   },

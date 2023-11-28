@@ -48,9 +48,12 @@ export default function CyclePage({
   curr.setDate(curr.getDate() + 1)
   const date = curr.toISOString().substring(0, 10)
 
-  const { register, handleSubmit, watch } = useForm({
+  const { register, handleSubmit, watch } = useForm<{
+    date:string
+    slot:string
+  }>({
     defaultValues: {
-      date,
+      date
     },
   })
   const selectedDate = watch('date' as any) as Date
@@ -69,14 +72,13 @@ export default function CyclePage({
   }
   async function onSubmit(data: FieldValues) {
     const slot = SLOTS.find((slot) => slot.code === data.slot)
-    if (!slot) return
     if (!cycle || !rawUser) {
       signInGoogle()
       return
     }
     setLoading(true)
     const booking: Booking = {
-      slot: slot.code,
+      slot: slot?.code||'buy',
       cycle: cycle.id,
       date: data.date.getTime(),
       client: rawUser?.email || '',
@@ -88,10 +90,10 @@ export default function CyclePage({
       method: 'POST',
       body: JSON.stringify({
         plan: {
-          name: 'Book ' + cycle?.title,
-          description: `Book ${cycle?.title} for ${data.date.toLocaleDateString()} ${
+          name:( !slot?'Buy ':'Book ') + cycle?.title,
+          description: slot?`Book ${cycle?.title} for ${data.date.toLocaleDateString()} ${
             slot.timeString
-          }`,
+          }`:`Buy ${cycle?.title}`,
           price: cycle?.price * 100 || 0,
         },
         booking,
@@ -164,7 +166,7 @@ export default function CyclePage({
                   {...register('slot' as any)}
                   className="mt-1 block  w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 >
-                  <option value={undefined}>Select Slot</option>
+                  <option value={''}>Buy product</option>
                   {slots.map((slot) => (
                     <option key={slot.code} value={slot.code}>
                       {slot.title} - {slot.timeString}
@@ -179,8 +181,8 @@ export default function CyclePage({
               >
                 {!loading && (
                   <div className="flex justify-between px-11  font-semibold">
-                    <h4>Book this car </h4> &nbsp;
-                    <span className={'text-xl'}>₹ {cycle.price || 0}</span>
+                    {watch('slot')?<h4>Rent this product </h4>:<h4>Buy this product</h4>} &nbsp;
+                    <span className={'text-xl'}>₹ {cycle.price || 0}{watch('slot')?'/slot':''}</span>
                   </div>
                 )}
                 {loading && <div className={'text-center'}>Loading...</div>}

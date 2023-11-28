@@ -86,20 +86,38 @@ export default function Account() {
             <div className={'mb-10'}>
               <div className={'mb-5 text-2xl font-bold'}>My Bookings</div>
               <div className={'flex grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3'}>
-                {bookingsForMe.map((booking) => (
+                {bookingsForMe.filter(x=>x.slot!=='buy').map((booking) => (
                   <BookingCard booking={booking} key={booking.id} />
                 ))}
               </div>
-              {!bookingsForMe.length && <div className={'text-center italic'}>No Bookings</div>}
+              {!bookingsForMe.filter(x=>x.slot!=='buy').length && <div className={'text-center italic'}>No Bookings</div>}
+            </div>
+            <div className={'mb-10'}>
+              <div className={'mb-5 text-2xl font-bold'}>My Sale</div>
+              <div className={'flex grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3'}>
+                {bookingsForMe.filter(x=>x.slot==='buy').map((booking) => (
+                  <BookingCard booking={booking} key={booking.id} />
+                ))}
+              </div>
+              {!bookingsForMe.filter(x=>x.slot==='buy').length && <div className={'text-center italic'}>No Bookings</div>}
             </div>
             <div className={'mb-10'}>
               <div className={'mb-5 text-2xl font-bold'}>Bookings by me</div>
               <div className={'flex grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 '}>
-                {bookingsByMe.map((booking) => (
+                {bookingsByMe.filter(x=>x.slot!=='buy').map((booking) => (
                   <BookingCard booking={booking} key={booking.id} />
                 ))}
               </div>
-              {!bookingsByMe.length && <div className={'text-center italic'}>No Bookings</div>}
+              {!bookingsByMe.filter(x=>x.slot!=='buy').length && <div className={'text-center italic'}>No Bookings</div>}
+            </div>
+            <div className={'mb-10'}>
+              <div className={'mb-5 text-2xl font-bold'}>Buying by me</div>
+              <div className={'flex grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 '}>
+                {bookingsByMe.filter(x=>x.slot==='buy').map((booking) => (
+                  <BookingCard booking={booking} key={booking.id} />
+                ))}
+              </div>
+              {!bookingsByMe.filter(x=>x.slot==='buy').length && <div className={'text-center italic'}>No items bought</div>}
             </div>
           </div>
         </Container>

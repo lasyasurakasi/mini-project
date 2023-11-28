@@ -69,9 +69,9 @@ export default function ProductType({ cycles }: PageProps) {
       <Wrapper>
         <Container>
           <div className="pt-[100px] pb-20">
-            <h1 className="mb-3 text-[49px] font-bold">Cycles</h1>
+            <h1 className="mb-3 text-[49px] font-bold">Products</h1>
             <div className="font-inter max-w-[610px] text-[#8a8a8a]">
-              Cycles take or give but see this
+              Products take or give but see this
             </div>
           </div>
 
@@ -85,7 +85,7 @@ export default function ProductType({ cycles }: PageProps) {
               /{' '}
               {
                 <Link className="underline underline-offset-4" href="/cycles">
-                  Cycles
+                  Products
                 </Link>
               }
             </h1>
