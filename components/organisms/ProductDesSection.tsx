@@ -53,7 +53,7 @@ const ProductDesSection = ({
       </div>
 
       {similarCycles.length > 0 && (
-        <h1 className="my-7 text-2xl font-semibold text-black">Similar Cycles</h1>
+        <h1 className="my-7 text-2xl font-semibold text-black">Similar Products</h1>
       )}
       <div className={'grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'}>
         {similarCycles.map((cycle) => cycle && <CycleCard key={cycle.id} cycle={cycle} />)}

@@ -65,7 +65,7 @@ export default function ProductType({ cycles }: PageProps) {
   }
   return (
     <Layout>
-      <SEO title={'Cycles Listing'} />
+      <SEO title={'Products Listing'} />
       <Wrapper>
         <Container>
           <div className="pt-[100px] pb-20">
