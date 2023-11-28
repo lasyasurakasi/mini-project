@@ -27,7 +27,7 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      cycles: cycles.filter((c) => !c.paused).slice(0, 3),
+      cycles: cycles.filter((c) => !c.paused).sort((a,b)=>(b.price-a.price)).slice(0, 3),
     },
   }
 }

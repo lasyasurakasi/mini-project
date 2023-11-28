@@ -22,7 +22,7 @@ export default function HomeHero({ displayWaitListForm }: any) {
           </div>
           <div>
             <div className={'mt-2 mb-4 max-w-[440px] text-p3 opacity-80 md:my-6'}>
-              <span>Renting made right, from bottle to kite</span>
+              <span>Renting made right, from day to night</span>
             </div>
           </div>
           <Link href={'/cycles'}>
