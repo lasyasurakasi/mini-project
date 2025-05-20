@@ -1,6 +1,6 @@
 import { getDownloadURL, getStorage, ref as storageRef, uploadBytes } from '@firebase/storage'
 
-import { app } from './index'
+import { app } from './storageapp'
 
 const storage = getStorage(app)
 
