@@ -2,13 +2,13 @@ import { getAnalytics } from 'firebase/analytics'
 import { initializeApp } from 'firebase/app'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDZr1Q7ZN0RXzF4yM8lTFLLsKRMP0_TZKw',
-  authDomain: 'masjids-1deec.firebaseapp.com',
-  projectId: 'masjids-1deec',
-  storageBucket: 'masjids-1deec.appspot.com',
-  messagingSenderId: '725794385604',
-  appId: '1:725794385604:web:45ca09a7891083512de391',
-  measurementId: 'G-Y38TNSNC7K',
-}
+  apiKey: "AIzaSyDJJP-WdsEzY4OUAvFaCjmiqY_qNWn3Ov0",
+  authDomain: "react-project-62ad9.firebaseapp.com",
+  projectId: "react-project-62ad9",
+  storageBucket: "react-project-62ad9.firebasestorage.app",
+  messagingSenderId: "254227599637",
+  appId: "1:254227599637:web:0654eaba535f856903991c"
+};
+
 
 export const app = initializeApp(firebaseConfig)
