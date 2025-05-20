@@ -34,7 +34,7 @@ export async function signInGoogle(): Promise<true | { code: string }> {
   try {
     const response = await signInWithPopup(auth, provider)
     const email = response.user.email
-    if (!email?.endsWith('@iiitl.ac.in')) {
+    if (!email?.endsWith('@visioneer.atria.edu')) {
       signOut(auth)
       alert('Please use college email!')
       return { code: 'error' }

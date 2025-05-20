@@ -40,7 +40,7 @@ export default function Header() {
   useEffect(() => {
     onAuthStateChanged(auth, (_user) => {
       if (!_user) setUser(undefined)
-      if (_user?.email?.endsWith('@iiitl.ac.in')) {
+      if (_user?.email?.endsWith('@visioneer.atria.edu')) {
         setUser(_user)
       }
     })
@@ -52,14 +52,12 @@ export default function Header() {
 
 
         <Link href={'/'} className={'flex items-center gap-3'}>
-          <div className={'h-12 w-12'}>
-            <Image width={300} height={300} src={'/logo.png'} alt={'cycle management system'} />
-          </div>
+          
           <div
             className={'text-1.5xl hidden text-center font-bold hover:text-purple-900 md:block'}
             style={{ color: '#F5C300' }}
           >
-            Web application for buying and renting for the students by the students
+            Campus marketplace for students
           </div>
         </Link>
         <div className={'hidden flex-grow justify-end gap-5 md:flex items-center'}>

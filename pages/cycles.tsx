@@ -70,9 +70,7 @@ export default function ProductType({ cycles }: PageProps) {
         <Container>
           <div className="pt-[100px] pb-20">
             <h1 className="mb-3 text-[49px] font-bold">Products</h1>
-            <div className="font-inter max-w-[610px] text-[#8a8a8a]">
-              Products take or give but see this
-            </div>
+          
           </div>
 
           <div className="my-10 flex flex-row justify-between gap-3 lg:flex-row">
