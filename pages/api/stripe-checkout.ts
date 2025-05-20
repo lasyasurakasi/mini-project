@@ -4,6 +4,10 @@ export default async function handler(req: any, res: any) {
     const { plan, booking } = JSON.parse(req.body)
     try {
       const session = await stripe.checkout.sessions.create({
+        customer_email:'lasya.surakasi@gmail.com',
+        shipping_address_collection:{
+          allowed_countries:['IN']
+        },
         line_items: [
           {
             price_data: {
